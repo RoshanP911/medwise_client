@@ -5,8 +5,7 @@ import { useFormik } from "formik";
 import { toast } from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { hideLoading } from "../../redux/AlertSlice.js";
-import Navbar from "../Navbar/Navbar.jsx";
-import { Navigate, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { resetPassSchema } from '../../validation/resetPasswordValidation.js';
 
 
@@ -46,7 +45,6 @@ const formik=useFormik({
 
   return (
     <div>
-       <Navbar />
         <form action="" onSubmit={formik.handleSubmit}>
         <Box
           sx={{

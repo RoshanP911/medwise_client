@@ -1,23 +1,30 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Container, Paper, TextField, Button,FormControl, InputLabel,Select,MenuItem} from '@mui/material';
 import { useFormik } from 'formik';
 import { toast } from 'react-hot-toast';
 import axios from '../../services/axiosInterceptor.js';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { editProfileSchema } from '../../validation/editProfileValidation.js';
 import { showLoading, hideLoading } from '../../redux/AlertSlice';
 import { setUser } from '../../redux/UserSlice.js';
-import Navbar from '../Navbar/Navbar.jsx';
+import Avatar from '@mui/material/Avatar';
+
+import Axios from 'axios';
 
 const EditProfile = () => {
+
   const dispatch = useDispatch();
-  const navigate = useNavigate();
-
-   const { user } = useSelector((state) => state.user);
 
 
+  const { user } = useSelector((state) => state.user);
+  const [image, setImage] = useState(null);
+  const [imageUrl,setImageUrl] = useState(null);
+  
+  
+  
   console.log(user,'user from useSelectorrr');
+
 
   const formik = useFormik({
     initialValues: {
@@ -30,43 +37,81 @@ const EditProfile = () => {
     },
     validationSchema: editProfileSchema,
     onSubmit: async (values) => {
-
+   
       try {
         dispatch(showLoading());
        
-        console.log(user._id,'user._iddddd');
+  console.log(image,'imageee');
+  if (image) {
 
+    const formData = new FormData();
+    formData.append('file', image);
+    formData.append('upload_preset', 'wjdg6veo'); 
+    formData.append('cloud_name', 'dipnk9uvd'); 
+
+    console.log(formData,'formdataaaa');
+    const response = await Axios.post(`https://api.cloudinary.com/v1_1/dipnk9uvd/image/upload`, formData);
+
+    if (response.data.secure_url) {
+
+     setImageUrl(response.data.secure_url)
+    }
+  }
+
+  else {
+    dispatch(hideLoading());
+    toast.error('Please select an image.');
+  }
+   
+  
+   
       const requestData = {
         ...values,
+        imageUrl: imageUrl,
         userId: user._id, 
       };
         
-
+   
+       if(imageUrl) {
         const response = await axios.post('/edit-profile', requestData);
-
+       
+   
         dispatch(hideLoading());
-
         if (response.data.success) {
           toast.success(response.data.message);
+          console.log(response.data.user,'jMOOOLLOOOOOOOOOOOOOOOOOOOOO');
           dispatch(setUser(response.data.user));
         } else {
-          console.log('hereee');
-          toast.error(response.data.message);
+          toast.error(response.data.message)
+   
         }
-      } catch (error) {
+      }
+      } 
+      
+      
+      
+      catch (error) {
         dispatch(hideLoading());
         console.log(error);
-        toast.error('Something went wrong');
+         toast.error('Something went wrong');
       }
     },
-  });
+   });
+
+  const handleImageChange = (e) => {
+    const selectedImage = e.target.files[0];
+    setImage(selectedImage);
+  };
+
+
 
   return (
     <>
-  <Navbar />
     <Container maxWidth="sm">
       <Paper elevation={24} sx={{ padding: 6, textAlign: 'center', mt: 4 }}>
         <form onSubmit={formik.handleSubmit}>
+
+
           <TextField
             label="Name"
             name="name"
@@ -143,6 +188,20 @@ const EditProfile = () => {
           />
 
 
+
+          
+
+
+               {/* File input for profile photo */}
+               <input
+                type="file"
+                id="image"
+                name="image"
+                accept="image/*"
+                onChange={handleImageChange}
+              />
+
+
           <div className='d-flex justify-content-center gap-2 mt-4'>
         
           <Button type="submit" variant="contained" color="primary">
@@ -163,3 +222,6 @@ const EditProfile = () => {
 };
 
 export default EditProfile;
+
+
+

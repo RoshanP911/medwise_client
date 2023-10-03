@@ -10,8 +10,8 @@ import { userSlice } from "./UserSlice";
 const rootReducer = combineReducers({
     alerts: alertsSlice.reducer,
     doctor: doctorSlice.reducer,
-    admin:adminSlice.reducer,
-    user:userSlice.reducer
+    admin: adminSlice.reducer,
+    user: userSlice.reducer
 });
 
 const persistConfig = {
@@ -20,10 +20,10 @@ const persistConfig = {
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
+//to save redux store details after refresh
 
 const store = configureStore({
     reducer: persistedReducer,
 });
 const persistor = persistStore(store);
 export  {store,persistor};
-//to save redux store details after refresh

@@ -2,34 +2,38 @@ import React from "react";
 import {
   Avatar,
   Typography,
-  Button,
-  CardContent,
   Container,
   Paper,
-  Card,
   Box,
   Grid,
   IconButton,
 } from "@mui/material";
-import Navbar from "../Navbar/Navbar";
 import EditIcon from "@mui/icons-material/Edit";
 import { Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { TabContext } from "@mui/lab";
+import { useSelector } from "react-redux";
 
 const Profile = () => {
-  const dispatch = useDispatch();
   const { user } = useSelector((state) => state.user);
   // console.log(user, "user from useSelectorrr from profile page");
-  
+
+
+
 
   return (
     <>
-      <Navbar />
       <Container maxWidth="sm">
         <Paper elevation={24} sx={{ padding: 6, textAlign: "center", mt: 4 }}>
-          <Avatar
+          {/* <Avatar
             alt="User"
+            sx={{ width: 100, height: 100, marginBottom: 2 }}
+          /> */}
+
+
+              {console.log(user.file,'ooooooooollalllal')};
+            <Avatar
+            alt="User"
+            
+            src={user?.image} 
             sx={{ width: 100, height: 100, marginBottom: 2 }}
           />
 

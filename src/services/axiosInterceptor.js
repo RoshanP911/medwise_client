@@ -6,16 +6,15 @@ const instance = axios.create({
   timeout: 5000,
 });
 
-
-
+//to add an Authorization header with a JWT token to outgoing HTTP requests.
 // User authentication interceptor
 instance.interceptors.request.use(
   (config) => {
-    const usertoken = localStorage.getItem('usertoken'); // You can use cookies or any other storage method as well
+    const usertoken = localStorage.getItem('usertoken'); 
     if (usertoken) {
-      config.headers['Authorization'] = `Bearer ${usertoken}`;
+      config.headers['Authorization'] = `Bearer ${usertoken}`;  
     }
-    return config;
+    return config; 
   },
   (error) => {
     return Promise.reject(error);

@@ -1,8 +1,6 @@
-import { Box, Button, Typography } from "@mui/material";
+import { Box,Typography } from "@mui/material";
 import React from "react";
 import bannerImg from "../../../Assets/PngItem_4554771.png";
-import DoctorNavbar from "../../Doctor/DoctorNavbar";
-import Navbar from "../../Navbar/Navbar";
 // import bannerImg from "../../../Assets/doctorr.jpg"
 import PropTypes from 'prop-types'
 
@@ -16,7 +14,6 @@ const Banner = ({value}) => {
   return (
 
     <>    
-    {value === 'doctor' ? <DoctorNavbar /> : <Navbar />}
 
       <Box
         sx={{

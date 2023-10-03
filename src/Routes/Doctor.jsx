@@ -8,6 +8,8 @@ import DoctorDetails from "../components/Doctor/DoctorDetails.jsx";
 import DoctorForgotPassword from "../components/Forgot Password/DoctorForgotPassword.jsx";
 import DoctorResetPassword from "../components/Reset Password/DoctorResetPassword.jsx";
 import DoctorNavbar from "../components/Doctor/DoctorNavbar.jsx";
+import PrivateRoute from "../components/Doctor/PrivateRoute.jsx";
+import AddSlot from "../components/Doctor/AddSlot.jsx";
 
 
 
@@ -16,16 +18,26 @@ function Doctor() {
     
 return (
     <>
-    {/* <DoctorNavbar /> */}
+    <DoctorNavbar />
     <Routes>
     <Route path="/register" element={<SignUp value={'doctor'}/>}/> 
     <Route path="/otp" element={<Otp value={'doctor'}/>}/> 
     <Route path="/resend-otp" element={<Otp value={'doctor'}/>}/>
     <Route path="/login" element={<Login value={'doctor'}/>}/>
-    <Route path="/home" element={<Banner value={'doctor'}/>}/>
-    <Route path="/details" element={<DoctorDetails value={'doctor'} />}/>
     <Route path="/forgot-password" element={<DoctorForgotPassword value={'doctor'}/>}/>
     <Route path="/reset-password/:id/:token" element={<DoctorResetPassword value={'doctor'}/>}/>
+
+
+    <Route path="" element={<PrivateRoute/>}> 
+        <Route path="/home" element={<Banner value={'doctor'}/>}/> 
+        <Route path="/details" element={<DoctorDetails value={'doctor'} />}/>
+        <Route path="/add-slot" element={<AddSlot  />}/>
+        
+        
+
+
+    </Route>
+
     </Routes>
     </>
 )

@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import axios from '../../services/axiosInterceptor.js';
 import styled from 'styled-components';
 import AdminNavbar from './AdminNavbar.jsx';
-import { Button} from "@mui/material";
+import { Button, Typography } from '@mui/material';
+import { Link } from 'react-router-dom';
 
-// Define a styled container for your component
 const DepartmentListContainer = styled.div`
   font-family: Arial, sans-serif;
   margin: 20px;
@@ -13,37 +13,31 @@ const DepartmentListContainer = styled.div`
   border-radius: 10px;
 `;
 
-// Define a styled table for your component
 const Table = styled.table`
   width: 100%;
   border-collapse: collapse;
 `;
 
-// Define a styled table header for your component
 const TableHeader = styled.th`
   background-color: #f2f2f2;
   padding: 10px;
   text-align: left;
 `;
 
-// Define a styled table row for your component
 const TableRow = styled.tr`
   border-bottom: 1px solid #ddd;
 `;
 
-// Define a styled table cell for your component
 const TableCell = styled.td`
   padding: 10px;
 `;
 
-// Define a styled button for your component
 const BlockButton = styled.button`
   background-color: #e74c3c;
   color: white;
   border: none;
   padding: 5px 10px;
   cursor: pointer;
-
   &:hover {
     background-color: #c0392b;
   }
@@ -58,7 +52,6 @@ const DepartmentList = () => {
     const getUser = async () => {
       try {
         const response = await axios.get("admin/departments");
-        console.log(response, 'admin response');
         if (response.data.success) {
           setUsers(response.data.departmentData); // Update the 'users' state with the fetched data.
         }
@@ -80,10 +73,16 @@ const DepartmentList = () => {
     <AdminNavbar />
     <DepartmentListContainer> 
       <h1>Departments List</h1>
-      {/* <Button  variant="contained" color="primary">
-          Add Department
-        </Button> */}
-        <a href="add_department">Add Department</a>
+
+           <Link to={'/admin/add-department'}style={{ textDecoration: 'none' }}>
+                  <Typography
+                    sx={{ color: "#1959FD",cursor: "pointer"}}
+                    variant="h6"
+                    component="div"
+                  >
+                    Add Department
+                  </Typography>
+                  </Link>
 
       <Table>
         <thead>

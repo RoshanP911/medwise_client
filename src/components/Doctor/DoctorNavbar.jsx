@@ -23,6 +23,10 @@ import {
   const navigate=useNavigate()
    const dispatch =useDispatch()
   const {doctor} = useSelector((state)=>state.doctor)
+  console.log(doctor,'this is doktoor redux from navbar');
+
+//console.log(doctor.is_verified,'(doctor.is_verified ');
+
     const [open, setOpen] = useState(false);
     const [anchorEl, setAnchorEl] = React.useState(null);
     
@@ -109,7 +113,7 @@ import {
                         Doctors
                       </Typography>
                       </Link>
-                      <Link to={'/plan_pricing'}>
+                      <Link to={'/'}>
                       <Typography sx={{color:'black'}} variant="h6" margin={2}>
                       Plan & pricing
                       </Typography>
@@ -122,6 +126,9 @@ import {
                     </Box>
                   </Drawer>
                 </IconButton>
+
+
+                
                 <Typography
   sx={{
     fontFamily: 'Arial, sans-serif',
@@ -226,7 +233,9 @@ import {
                     open={Boolean(anchorEl)}
                     onClose={handleClose}
                   >
-                    <MenuItem onClick={handleClose}><Link style={{color:'black',fontSize:18}} to={'/doctor_profile'}>Profile</Link></MenuItem>
+                    <MenuItem onClick={handleClose}><Link style={{color:'black',fontSize:18,textDecoration: "none"}} to={'/doctor/profile'}>Profile</Link></MenuItem>
+                    <MenuItem onClick={handleClose}><Link style={{color:'black',fontSize:18,textDecoration: "none"}} to={'/doctor/add-slot'}>Add Slot</Link></MenuItem>
+
                     <MenuItem onClick={handleLogout}>Logout</MenuItem>
                   </Menu>
                 </Box>

@@ -11,16 +11,16 @@ import { useDispatch } from "react-redux";
 import { hideLoading } from "../../redux/AlertSlice.js";
 import { userLoginSchema } from "../../validation/userLoginValidation.js"; 
 import PropTypes from 'prop-types'
-import Navbar from "../Navbar/Navbar";
-import DoctorNavbar from '../Doctor/DoctorNavbar.jsx';
 
 
 
 
 const Login = ({value}) => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch(); // used to dispatch actions to our Redux store.
   const navigate = useNavigate();
 
+
+  //CHECKING IF TOKEN PRESENT IN LOCAL STORAGE
   useEffect(()=>{
     if(localStorage.getItem('usertoken')){
       navigate('/home')
@@ -33,6 +33,13 @@ const Login = ({value}) => {
     }
   },[])
 
+
+
+
+
+
+
+
 const formik=useFormik({
   initialValues: {
         email: "",
@@ -41,25 +48,34 @@ const formik=useFormik({
       validationSchema: userLoginSchema,
       onSubmit:async(values,helpers)=>{
         try {
+
+         // console.log(value,'........valuueeeeeee props............');
           const response= await axios.post(value==='doctor'?"/doctor/login":value==='admin'?"/admin/login":"/login" ,values)
           dispatch(hideLoading());
-          // console.log(response,'this is resposne from login pagffffffffffe');
-          // console.log(response.data,'this is response from login page');
-           console.log(response.data.isUserr,'this is is_approved');
-           console.log(response.data.success,'this is itttt');
-           const docData=response.data.isUserr
 
-
+            //console.log(response,'responzzzzzzzzzzzzzzzzzzz');
 
           if(response.data.success){
             toast.success(response.data.message)
-         
 
-            if(value==='doctor'){         
-              localStorage.setItem("doctortoken",response.data.token)
-              dispatch(setDoctor(response.data.token))
-              dispatch(setDoctor(response.data.isUserr))
+            if(value==='doctor'){  
+              const docData=response.data.doctor
+              const docApprove=response.data.doctor.is_approved
+
+              if(docApprove===false){
+              //WHEN ADMIN NOT APPROVED
+              
+                localStorage.setItem("doctortoken",response.data.token)
+                dispatch(setDoctor(response.data.doctor))
+                //Sending data from one component to another
+                   navigate("/doctor/details",{state:{docData}});
+              }   
+              else{
+                 localStorage.setItem("doctortoken",response.data.token)
+              dispatch(setDoctor(response.data.doctor))
               navigate("/doctor/home")
+              }    
+             
             }
             else if(value==='admin'){
               localStorage.setItem("admintoken",response.data.token)
@@ -68,24 +84,18 @@ const formik=useFormik({
             } 
             else{ 
                localStorage.setItem("usertoken",response.data.token)
-               dispatch(setUser(response.data.token))
                dispatch(setUser(response.data.isUser))
                navigate("/home");
             }
           }
-          else if(!response.data.isUserr.is_approved){
-            console.log('reachinh here admin not aprrobew');
-            toast.success(response.data.message)
-            console.log(docData,'this is docDataaa');
-            navigate("/doctor/details",{ state: { docData } });
-          }
+     
           else {
+            console.log(response.data.message);
           toast.error(response.data.message);
         }
         } catch (error) {
           console.error(error); 
           helpers.setErrors({ submit: error.message });
-          // toast.error("something went wrong");
           toast.error(`${error.response.data.message}`)
         }
       }
@@ -93,7 +103,7 @@ const formik=useFormik({
 
 
 
-  //PROPS
+  //PROPS value={'doctor'} value={'admin'} from frontend routes
   Login.propTypes = {
     value: PropTypes.string
   } 
@@ -102,7 +112,6 @@ const formik=useFormik({
   return (
     <div>
       
-        {value === 'doctor' ? <DoctorNavbar /> : <Navbar />}
         <form onSubmit={formik.handleSubmit}>
         <Box
           sx={{

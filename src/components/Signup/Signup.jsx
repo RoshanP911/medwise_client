@@ -9,8 +9,7 @@ import { hideLoading } from "../../redux/AlertSlice";
 import { toast } from "react-hot-toast";
 import { setUser } from "../../redux/UserSlice";
 import PropTypes from 'prop-types'
-import Navbar from "../Navbar/Navbar";
-import DoctorNavbar from "../Doctor/DoctorNavbar";
+
 
 const SignUp = ({value}) => {
   const dispatch = useDispatch();
@@ -45,7 +44,7 @@ const SignUp = ({value}) => {
         if (response.data.success) {
           toast.success(response.data.message);
    
-          console.log(response.data,'values from response.dataresponse.dataresponse.data');
+          console.log(response.data,'values from response.datares');
 
           // dispatch(setUser(values));
           // dispatch(setUser(response))
@@ -83,7 +82,6 @@ const SignUp = ({value}) => {
 
   return (
     <div>
-   {value === 'doctor' ? <DoctorNavbar /> : <Navbar />}
      
       <form onSubmit={formik.handleSubmit}>
         <Box

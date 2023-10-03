@@ -94,8 +94,7 @@ return () => clearInterval(timer);
 
 return(
    <>
- {/* {value === 'doctor' ? <DoctorNavbar /> : <Navbar />} */}
- <Navbar />
+
 
    <div className="row">
     <div className='col text-center'>

@@ -16,8 +16,6 @@ import {
   import { Link, useNavigate} from "react-router-dom";
   import { useDispatch, useSelector } from "react-redux";
   import { setAdmin } from "../../redux/AdminSlice";
-//   import PropTypes from 'prop-types'
-  // import { baseURL } from "../../../constants/constant";
   
   const AdminNavbar = () => {
   const navigate=useNavigate()
@@ -46,13 +44,7 @@ import {
       setAnchorEl(null);
       navigate("/admin/login")
     };
-  
-  
-  
-      //PROPS
-      // Navbar.propTypes = {
-      //   value: PropTypes.string
-      // } 
+
     
     return (
       <>

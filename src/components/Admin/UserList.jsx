@@ -8,7 +8,6 @@ import { toast } from "react-hot-toast";
 import { showLoading,hideLoading } from "../../redux/AlertSlice.js";
 
 
-// Define a styled container for your component
 const UserListContainer = styled.div`
   font-family: Arial, sans-serif;
   margin: 20px;
@@ -17,25 +16,21 @@ const UserListContainer = styled.div`
   border-radius: 10px;
 `;
 
-// Define a styled table for your component
 const Table = styled.table`
   width: 100%;
   border-collapse: collapse;
 `;
 
-// Define a styled table header for your component
 const TableHeader = styled.th`
   background-color: #f2f2f2;
   padding: 10px;
   text-align: left;
 `;
 
-// Define a styled table row for your component
 const TableRow = styled.tr`
   border-bottom: 1px solid #ddd;
 `;
 
-// Define a styled table cell for your component
 const TableCell = styled.td`
   padding: 10px;
 `;
@@ -93,9 +88,9 @@ const blockHandler=async(doctorId)=>{
 
   }, [refresh]);
 
-  if (!users || !users.length) {
-    return <div>No users to display.</div>;
-  }
+  // if (!users || !users.length) {
+  //   return <div>No users to display.</div>;
+  // }
 
   return (
     <>
@@ -129,10 +124,7 @@ const blockHandler=async(doctorId)=>{
                 onClick={()=>blockHandler(user._id)}
                 >Block</Button>
 
-                <Button
-                variant="contained"
-                color="success"
-                >Unblock</Button>
+              
               </TableCell>
 
               

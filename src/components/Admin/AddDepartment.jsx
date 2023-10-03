@@ -22,29 +22,27 @@ const AddDepartment = () => {
       try {
         dispatch(showLoading());
 
-        // Upload the image to Cloudinary
+        // To Upload the image to Cloudinary
         console.log(image,'imageee');
         if (image) {
 
           const formData = new FormData();
           formData.append('file', image);
-          formData.append('upload_preset', 'wjdg6veo'); // Replace with your upload preset
+          formData.append('upload_preset', 'wjdg6veo'); 
           formData.append('cloud_name', 'dipnk9uvd'); 
 
           console.log(formData,'formdataaaa');
           const response = await Axios.post(`https://api.cloudinary.com/v1_1/dipnk9uvd/image/upload`, formData);
           console.log(response,'responseeee');
           if (response.data.secure_url) {
-            // Get the uploaded image URL from Cloudinary
+
             const imageUrl = response.data.secure_url;
 
-            // Now, you can include this imageUrl in your department creation API call
             const departmentData = {
               departmentName: values.departmentName,
-              imageUrl: imageUrl, // Include the image URL in your data
+              imageUrl: imageUrl, 
             };
             
-            // Make the API call to add the department with the image
             const departmentResponse = await axios.post('admin/add_department', departmentData);
 
             dispatch(hideLoading());
@@ -56,6 +54,10 @@ const AddDepartment = () => {
           dispatch(hideLoading());
           toast.error('Please select an image.');
         }
+
+
+
+        
       } catch (error) {
         dispatch(hideLoading());
         console.error(error);

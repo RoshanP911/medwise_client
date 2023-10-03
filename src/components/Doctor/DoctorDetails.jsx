@@ -24,8 +24,6 @@ import { toast } from "react-hot-toast";
 import { setDoctor } from "../../redux/DoctorSlice";
 
 import PropTypes from "prop-types";
-import Navbar from "../Navbar/Navbar";
-import DoctorNavbar from "../Doctor/DoctorNavbar";
 import { Container } from "@mui/material";
 import { DoctorDetailsSchema } from "../../validation/doctorDetailsValidation";
 import { useLocation } from 'react-router-dom';
@@ -39,14 +37,13 @@ const DoctorDetails = ({ value }) => {
   const [selectedFile, setSelectedFile] = useState(null);
   
 
-const location = useLocation();
-const docData = location.state && location.state.docData;
-
-// Now you can access docData in your component
-console.log(docData,'docData from doc/detils'); // This will give you access to the passed docData
+const location = useLocation(); // to access the current location in our application.
+const docData = location.state && location.state.docData; //attempts to extract data named docData from the state of the current location. 
+//If the state contains docData, it is assigned to the docData variable. 
 
 
 
+//Handling File Upload
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     setSelectedFile(file);
@@ -60,18 +57,18 @@ console.log(docData,'docData from doc/detils'); // This will give you access to 
       formData.append("file", selectedFile);
       formData.append("upload_preset", "wjdg6veo"); 
       formData.append("cloud_name", "dipnk9uvd");
-      console.log(formData,'formDataformDataformData if dog detilas');
+      // console.log(formData,'formDataformDataformData if dog detilas');
 
       try {
         const response = await Axios.post(
           `https://api.cloudinary.com/v1_1/dipnk9uvd/image/upload`,
           formData
         );
-        console.log(response, "responseeee");
-        console.log("File uploaded:", selectedFile);
+        // console.log(response, "responseeee");
+        // console.log("File uploaded:", selectedFile);
 
         if (response.data.secure_url) {
-          // Get the uploaded image URL from Cloudinary
+          // Getting the uploaded image URL from Cloudinary
           const fileUrl = response.data.secure_url;
         
 
@@ -92,21 +89,14 @@ console.log(docData,'docData from doc/detils'); // This will give you access to 
 
         dispatch(hideLoading());
         if (formResponse.data.success) {
-          navigate('/doctor/login')
+          navigate('/doctor/home')
           toast.success(formResponse.data.message);
 
-          console.log(
-            formResponse.data,
-            "values from formResponse.dataresponse.dataresponse.data"
-          );
+          // console.log(
+          //   formResponse.data,
+          //   "values from formResponse.dataresponse.dataresponse.data"
+          // );
 
-          // const id = formResponse.data.user._id;
-
-          // if (value === "doctor") {
-          //   navigate("/doctor/otp", { state: id }); 
-          // } else {
-          //   navigate("/otp", { state: id }); 
-          // }
         } else {
           toast.error(formResponse.data.message);
         }
@@ -154,7 +144,6 @@ console.log(docData,'docData from doc/detils'); // This will give you access to 
 
   return (
     <>
-      <DoctorNavbar />
       <Container maxWidth="sm">
         <form onSubmit={handleFormSubmit}>
           <Grid container spacing={2}>
@@ -314,6 +303,7 @@ console.log(docData,'docData from doc/detils'); // This will give you access to 
               >
                 Confirm
               </Button>
+              
             </Grid>
           </Grid>
         </form>
