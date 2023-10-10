@@ -1,76 +1,42 @@
+// Authentication interceptor
 import axios from "axios";
 import { BASE_URL } from '../config';
 
+
+
+
+
 const instance = axios.create({
-  baseURL: BASE_URL,  //port of server
+  baseURL: BASE_URL, 
   timeout: 5000,
 });
 
-//to add an Authorization header with a JWT token to outgoing HTTP requests.
-// User authentication interceptor
+
+
 instance.interceptors.request.use(
   (config) => {
-    const usertoken = localStorage.getItem('usertoken'); 
-    if (usertoken) {
-      config.headers['Authorization'] = `Bearer ${usertoken}`;  
+    const userToken = localStorage.getItem('usertoken'); 
+    const doctorToken = localStorage.getItem('doctortoken')
+    const adminToken = localStorage.getItem('admintoken')
+
+    if (userToken) {
+      console.log(userToken,'.........userToken frm axios');
+      config.headers['Authorization']=`Bearer ${userToken}`
+    }
+    else if(doctorToken){
+      console.log(doctorToken,'.............doctorToken frm axios');
+      config.headers['Authorization']=`Bearer ${doctorToken}`
+    }
+    else if(adminToken){
+      console.log(adminToken,'.............adminToken frm axios');
+      config.headers['Authorization']=`Bearer ${adminToken}`
     }
     return config; 
   },
   (error) => {
     return Promise.reject(error);
   }
-);
 
-// Doctor authentication interceptor
-instance.interceptors.request.use(
-  (config) => {
-    const doctortoken = localStorage.getItem('doctortoken');
-    if (doctortoken) {
-      config.headers['Authorization'] = `Bearer ${doctortoken}`;
-    }
-    return config;
-  },
-  (error) => {
-    return Promise.reject(error);
-  }
-);
+)
 
 export default instance;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//   // dataCall()
-//   const dataCall=async()=>{
-// const doctortoken=localStorage.getItem('doctortoken')
-// const admintoken=localStorage.getItem('admintoken')
-
-// if(doctortoken){
-//   axios.defaults.headers.common['Authorization']=`Bearer ${doctortoken}` 
-//   await axios.get()
-// }
-//   }
-
-
-// axios.interceptors.request.use(config => {
-//   // Modify the request config before sending
-//   config.headers['Authorization'] = 'Bearer ' + localStorage.getItem('token');
-//   return config;
-// }, error => {
-//   return Promise.reject(error);
-// });

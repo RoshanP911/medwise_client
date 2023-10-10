@@ -10,7 +10,7 @@ export const alertsSlice=createSlice({
             state.loading = true;
         },
         hideLoading:(state)=>{
-            state.loading = false;
+            state.loading =false;
         }
     }
 })

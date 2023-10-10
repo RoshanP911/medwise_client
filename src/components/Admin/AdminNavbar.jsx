@@ -18,13 +18,16 @@ import {
   import { setAdmin } from "../../redux/AdminSlice";
   
   const AdminNavbar = () => {
+
   const navigate=useNavigate()
    const dispatch =useDispatch()
-  const {admin} = useSelector((state)=>state.admin)
-  const adminInfo = localStorage.getItem('admintoken')
+  const {admin} = useSelector((state)=>state.admin) //admintoken from admin redux state 
+  // const adminInfo = localStorage.getItem('admintoken')
     const [open, setOpen] = useState(false);
-    console.log(admin,'addminnnnn');
-    console.log(adminInfo,'admininfooo');
+
+    console.log(admin,'addmin token frm Admin navbarrr');
+    // console.log(adminInfo,'admininfooo frm Admin navbarrr');
+
     const [anchorEl, setAnchorEl] = React.useState(null);
     
     const handleMenu = (event) => {
@@ -37,6 +40,8 @@ import {
     const handleCloseDrawer = () => {
       setOpen(false);
     };
+
+    
     const handleLogout = () => {
       
       localStorage.removeItem('admintoken');
@@ -94,22 +99,31 @@ import {
                 >
                   MEDWISE
                 </Typography>
-                      <Link to={'/'}>
+                      <Link to={'/admin/dashboard'} style={{ textDecoration: "none" }}>
                       <Typography sx={{color:'black'}} variant="h6" margin={2}>
-                        Home
+                        Dashboard
                       </Typography>
                       </Link>
-                      <Link to={'/doctors'}>
+
+                      <Link to={'/admin/departments'} style={{ textDecoration: "none" }}>
+                      <Typography sx={{color:'black'}} variant="h6" margin={2}>
+                      Departments
+                      </Typography>
+                      </Link>
+                      
+                      <Link to={'/admin/users'}  style={{ textDecoration: "none" }}>
+                      <Typography sx={{color:'black'}} variant="h6" margin={2}>
+                        Users
+                      </Typography>
+                      </Link>
+
+                      <Link to={'/admin/doctors'}  style={{ textDecoration: "none" }}>
                       <Typography sx={{color:'black'}} variant="h6" margin={2}>
                         Doctors
                       </Typography>
                       </Link>
-                      <Link to={'/plan_pricing'}>
-                      <Typography sx={{color:'black'}} variant="h6" margin={2}>
-                      Plan & pricing
-                      </Typography>
-                      </Link>
-                      <Link to={'/user_profile'}>
+                 
+                      <Link to={'/admin/profile'} style={{ textDecoration: "none" }}>
                       <Typography sx={{color:'black'}} variant="h6" margin={2}>
                         Profile
                       </Typography>
@@ -207,7 +221,7 @@ import {
                   </Typography>
                   </Link>
                 </Box>
-  { console.log(admin,'admin val1')}
+  { console.log(admin,'admin val1 frm admin navbarrrrr down')}
  
             {admin&& admin?(
                 <Box
@@ -239,7 +253,7 @@ import {
                     open={Boolean(anchorEl)}
                     onClose={handleClose}
                   >
-                    <MenuItem onClick={handleClose}><Link style={{color:'black',fontSize:18}} to={'/admin_profile'}>Profile</Link></MenuItem>
+                    <MenuItem onClick={handleClose}><Link style={{color:'black',fontSize:18,textDecoration: 'none'}} to={'/admin/profile'}>Profile</Link></MenuItem>
                     <MenuItem onClick={handleLogout}>Logout</MenuItem>
                   </Menu>
                 </Box>
@@ -262,8 +276,8 @@ import {
                     open={Boolean(anchorEl)}
                     onClose={handleClose}
                   >
-                    <MenuItem onClick={handleClose}><Link style={{color:'black',fontSize:18}} to={'/login'}>User Login</Link></MenuItem>
-                    <MenuItem onClick={handleClose}><Link style={{color:'black',fontSize:18}} to={'/doctor/login'}>Doctor Login</Link></MenuItem>
+                    <MenuItem onClick={handleClose}><Link style={{color:'black',fontSize:18, textDecoration: "none"}} to={'/login'}>User Login</Link></MenuItem>
+                    <MenuItem onClick={handleClose}><Link style={{color:'black',fontSize:18, textDecoration: "none"}} to={'/doctor/login'}>Doctor Login</Link></MenuItem>
                   </Menu>
             </Box>
             )}

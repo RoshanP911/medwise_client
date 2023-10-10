@@ -1,8 +1,6 @@
-import React from "react";
+import {React,Suspense} from "react";
 import {  Routes, Route } from "react-router-dom";
-
-
-
+import Loader from "../components/Loader.jsx";
 import Login from '../components/Login/Login.jsx'
 import Dashboard from "../components/Admin/Dashboard.jsx";
 import UserList from "../components/Admin/UserList.jsx";
@@ -10,29 +8,34 @@ import DoctorList from "../components/Admin/DoctorList.jsx";
 import DepartmentList from "../components/Admin/DepartmentList.jsx";
 import AddDepartment from "../components/Admin/AddDepartment.jsx";
 import PrivateRoute from "../components/Admin/PrivateRoute.jsx";
-
+import AdminNavbar from "../components/Admin/AdminNavbar.jsx";
 
                                /* ADMIN ROUTES */
 function Admin() {
+
+
+
 return (
-    <>
+    <>    
+    {/* <Suspense fallback={<Loader />}>  */}
+    <AdminNavbar />
     <Routes>
                 <Route path="/login" element={<Login value={'admin'}/>}/>
           
-
                 {/* PRIVATE ROUTES */}
                 <Route path="" element={<PrivateRoute/>}>
-                    <Route path="/dashboard" element={<Dashboard value={'admin'}/>}/>
-                    <Route path="/users" element={<UserList value={'admin'}/>}/>
-                    <Route path="/doctors" element={<DoctorList value={'admin'}/>}/>
-                    <Route path="/departments" element={<DepartmentList value={'admin'}/>}/>
-                    <Route path="/add-department" element={<AddDepartment value={'admin'}/>}/>
+                    <Route path="/dashboard" element={<Dashboard />}/>
+                    <Route path="/users" element={<UserList />}/>
+                    <Route path="/doctors" element={<DoctorList />}/>
+                    <Route path="/departments" element={<DepartmentList />}/>
+                    <Route path="/add-department" element={<AddDepartment />}/>
 
 
                 </Route>
 
 
     </Routes>
+    {/* </Suspense> */}
     </>
 )
 }

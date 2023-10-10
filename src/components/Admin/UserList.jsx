@@ -94,8 +94,6 @@ const blockHandler=async(doctorId)=>{
 
   return (
     <>
-  
-    <AdminNavbar />
     <UserListContainer> {/* Apply the container style */}
       <h1>User List</h1>
       <Table>
@@ -121,7 +119,8 @@ const blockHandler=async(doctorId)=>{
                 <Button
                 variant="contained"
                 color="error"
-                onClick={()=>blockHandler(user._id)}
+                // onClick={()=>blockHandler(user._id)}
+                
                 >Block</Button>
 
               
@@ -141,3 +140,7 @@ const blockHandler=async(doctorId)=>{
 };
 
 export default UserList;
+
+
+
+

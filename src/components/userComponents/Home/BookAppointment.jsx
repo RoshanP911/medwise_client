@@ -1,15 +1,35 @@
 //USER BOOKING APPOINTMENT
-import { Avatar, Box, Button, Card, CardContent, Container, TextField, Typography } from "@mui/material";
+import { Avatar, Box, Button, Card, CardContent, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
-import { useParams } from 'react-router-dom'
+import { useParams,useNavigate } from 'react-router-dom'
 import axios from '../../../services/axiosInterceptor';
+import { useSelector } from "react-redux";
+
 
 
 const BookAppointment = () => {
     const {id}=useParams()
+    const { user } = useSelector((state) => state.user);
+    const navigate = useNavigate();
+
 
     const [doctor, setDoctor] = useState([]);
     const [availableSlots, setAvailableSlots] = useState([]);
+    
+
+
+const handleBooking=async(value)=>{
+  try {
+    const response = await axios.post("/book-appointment", {doctor,user,value});
+
+    if (response.data.success) {
+      const apptData=response.data.appointmentData
+      navigate('/confirm-appointment',{state:{ apptData: apptData}})
+      }
+  } catch (error) {
+    console.log(error);
+  }
+}
 
 
 const fetchDctorDetails = async (id) => {
@@ -171,11 +191,18 @@ return(
                         Available Slots :
                         </Typography>
                     
-                    {availableSlots.map((value)=>(
-                 <Button variant="outlined" style={{ marginRight: '10px', marginBottom: '10px' }}>
-                 {value} 
-                </Button>
-                  ))}
+            
+                  {availableSlots.map((value) => (
+  <Button
+    key={value} // Adds a unique key prop if availableSlots contains unique values
+    variant="outlined"
+    onClick={() => handleBooking(value)} 
+    style={{ marginRight: '10px', marginBottom: '10px' }}
+  >
+    {value}
+  </Button>
+))}
+
              
                 </Box>
               

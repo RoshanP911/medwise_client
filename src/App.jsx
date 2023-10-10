@@ -11,11 +11,32 @@ import { Toaster } from "react-hot-toast";
 import Admin from './Routes/Admin.jsx'
 import User from './Routes/User.jsx'
 import Doctor from "./Routes/Doctor.jsx";
+// import { useSelector } from "react-redux";
+// import { CircularProgress } from "@mui/material";
+// import { AppContext } from "./context/AppContext.js";
+
 
 function App() {
+
+  // const [progress] = React.useState(75);
+  // const {loading}= useSelector(state=>state.alerts)
+
+
   return (
     <>
+    {/* <AppContext.Provider value={{
+    }}> */}
+
+
+
       <BrowserRouter>
+      {/* {console.log(loading,'loadingggg')}
+
+      {loading&& (<div className="spinner-parent">
+      <CircularProgress variant="determinate" value={progress}   />
+      </div>)} */}
+
+
       <Toaster
   position="top-center"
   reverseOrder={false}
@@ -27,6 +48,11 @@ function App() {
           <Route path='/admin/*' element={<Admin />} />
         </Routes>
       </BrowserRouter>
+
+
+
+      {/* </AppContext.Provider> */}
+
     </>
   );
 }

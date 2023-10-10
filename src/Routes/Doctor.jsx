@@ -29,8 +29,8 @@ return (
 
 
     <Route path="" element={<PrivateRoute/>}> 
-        <Route path="/home" element={<Banner value={'doctor'}/>}/> 
-        <Route path="/details" element={<DoctorDetails value={'doctor'} />}/>
+        <Route path="/home" element={<Banner />}/> 
+        <Route path="/details" element={<DoctorDetails  />}/>
         <Route path="/add-slot" element={<AddSlot  />}/>
         
         
@@ -43,5 +43,7 @@ return (
 )
 }
 
+
+//value={'doctor'}
 //passing value as props
 export default Doctor;

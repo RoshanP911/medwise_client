@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from '../../services/axiosInterceptor.js';
 import styled from 'styled-components';
-import AdminNavbar from './AdminNavbar.jsx';
-import { Button, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
 
 const DepartmentListContainer = styled.div`
@@ -11,6 +10,11 @@ const DepartmentListContainer = styled.div`
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
   padding: 20px;
   border-radius: 10px;
+
+  @media (max-width: 768px) {
+    margin: 10px;
+    padding: 10px;
+  }
 `;
 
 const Table = styled.table`
@@ -38,6 +42,7 @@ const BlockButton = styled.button`
   border: none;
   padding: 5px 10px;
   cursor: pointer;
+
   &:hover {
     background-color: #c0392b;
   }
@@ -45,6 +50,7 @@ const BlockButton = styled.button`
 
 const DepartmentList = () => {
   const [users, setUsers] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [refresh, setRefresh] = useState(false);
 
   useEffect(() => {
@@ -53,64 +59,85 @@ const DepartmentList = () => {
       try {
         const response = await axios.get("admin/departments");
         if (response.data.success) {
-          setUsers(response.data.departmentData); // Update the 'users' state with the fetched data.
+          setUsers(response.data.departmentData);
+        } else {
+          console.error("API request failed with:", response.data.message);
         }
+
+
       } catch (error) {
-        console.log(error);
+        console.error("An error occurred:", error);
+      } finally {
+        setIsLoading(false);
       }
     }
-    getUser(); // Call the getUser function to fetch data when the component mounts.
-
+    getUser();
   }, [refresh]);
 
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
   if (!users || !users.length) {
-    return <div>No users to display.</div>;
+    return <div >No departments to display.</div>;
   }
 
   return (
     <>
-  
-    <AdminNavbar />
-    <DepartmentListContainer> 
-      <h1>Departments List</h1>
+      <DepartmentListContainer>
+        <h1>Departments List</h1>
+        <Link to={'/admin/add-department'} style={{ textDecoration: 'none' }}>
+          <Typography
+            sx={{ color: "#1959FD", cursor: "pointer" }}
+            variant="h6"
+            component="div"
+          >
+            Add Department
+          </Typography>
+        </Link>
 
-           <Link to={'/admin/add-department'}style={{ textDecoration: 'none' }}>
-                  <Typography
-                    sx={{ color: "#1959FD",cursor: "pointer"}}
-                    variant="h6"
-                    component="div"
-                  >
-                    Add Department
-                  </Typography>
-                  </Link>
-
-      <Table>
-        <thead>
-          <tr>
-          <TableHeader>Image</TableHeader>
-            <TableHeader>Name</TableHeader>
-            <TableHeader>Action</TableHeader>
-
-          </tr>
-        </thead>
-
-           <tbody>
+        <Table>
+          <thead>
+            <tr>
+              <TableHeader>Image</TableHeader>
+              <TableHeader>Name</TableHeader>
+              {/* <TableHeader>Action</TableHeader> */}
+            </tr>
+          </thead>
+          <tbody>
             {users.map((user, index) => (
               <TableRow key={index}>
                 <TableCell>
                   <img src={user.image} alt={user.name} width="100" height="100" />
                 </TableCell>
                 <TableCell>{user.name}</TableCell>
-                <TableCell>
+                {/* <TableCell>
                   <BlockButton>Block</BlockButton>
-                </TableCell>
+                </TableCell> */}
               </TableRow>
             ))}
           </tbody>
-      </Table>
-    </DepartmentListContainer>
+        </Table>
+      </DepartmentListContainer>
     </>
   );
 };
 
 export default DepartmentList;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

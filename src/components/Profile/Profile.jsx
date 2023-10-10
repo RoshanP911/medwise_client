@@ -13,9 +13,7 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 const Profile = () => {
-  const { user } = useSelector((state) => state.user);
-  // console.log(user, "user from useSelectorrr from profile page");
-
+  const { user } = useSelector((state) => state.user); //TAKING FROM REDUX SAVED DURING LOGIN
 
 
 
@@ -29,7 +27,6 @@ const Profile = () => {
           /> */}
 
 
-              {console.log(user.file,'ooooooooollalllal')};
             <Avatar
             alt="User"
             
@@ -44,6 +41,10 @@ const Profile = () => {
               </IconButton>
             </Link>
           </Box>
+          <Typography variant="h4" component="div" sx={{color: "grey"}}>
+            Profile
+          </Typography>
+   
 
           <Typography variant="h6" component="div">
             Name: {`${user?.name} `}

@@ -8,7 +8,6 @@ import { setUser } from "../../redux/UserSlice.js"
 import { setDoctor} from "../../redux/DoctorSlice.js"
 import { setAdmin} from "../../redux/AdminSlice.js"
 import { useDispatch } from "react-redux";
-import { hideLoading } from "../../redux/AlertSlice.js";
 import { userLoginSchema } from "../../validation/userLoginValidation.js"; 
 import PropTypes from 'prop-types'
 
@@ -49,11 +48,8 @@ const formik=useFormik({
       onSubmit:async(values,helpers)=>{
         try {
 
-         // console.log(value,'........valuueeeeeee props............');
           const response= await axios.post(value==='doctor'?"/doctor/login":value==='admin'?"/admin/login":"/login" ,values)
-          dispatch(hideLoading());
 
-            //console.log(response,'responzzzzzzzzzzzzzzzzzzz');
 
           if(response.data.success){
             toast.success(response.data.message)
@@ -84,7 +80,7 @@ const formik=useFormik({
             } 
             else{ 
                localStorage.setItem("usertoken",response.data.token)
-               dispatch(setUser(response.data.isUser))
+               dispatch(setUser(response.data.isUser))   //SENDING USER DATA TO REDUX
                navigate("/home");
             }
           }

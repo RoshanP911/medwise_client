@@ -93,7 +93,7 @@ const Navbar = () => {
                       MEDWISE
                     </Typography>
 
-                    <Link to={"/"}>
+                    <Link to={"/"} style={{ textDecoration: "none" }}>
                       <Typography
                         sx={{ color: "black" }}
                         variant="h6"
@@ -102,7 +102,7 @@ const Navbar = () => {
                         Home
                       </Typography>
                     </Link>
-                    <Link to={"/doctors"}>
+                    <Link to={"/find-doctors"} style={{ textDecoration: "none" }} >
                       <Typography
                         sx={{ color: "black" }}
                         variant="h6"
@@ -111,16 +111,7 @@ const Navbar = () => {
                         Doctors
                       </Typography>
                     </Link>
-                    <Link to={"/plan_pricing"}>
-                      <Typography
-                        sx={{ color: "black" }}
-                        variant="h6"
-                        margin={2}
-                      >
-                        Plan & pricing
-                      </Typography>
-                    </Link>
-                    <Link to={"/user_profile"}>
+                    <Link to={"/profile"} style={{ textDecoration: "none" }}>
                       <Typography
                         sx={{ color: "black" }}
                         variant="h6"

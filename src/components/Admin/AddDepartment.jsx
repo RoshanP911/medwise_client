@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import axios from '../../services/axiosInterceptor.js';
 import Axios from 'axios';
 import { useDispatch } from 'react-redux';
-import AdminNavbar from './AdminNavbar.jsx';
 import { useFormik } from 'formik';
  import { addDeptSchema } from '../../validation/addDeptSchemaValidation.js';
 import { showLoading, hideLoading } from '../../redux/AlertSlice.js';
@@ -33,7 +32,6 @@ const AddDepartment = () => {
 
           console.log(formData,'formdataaaa');
           const response = await Axios.post(`https://api.cloudinary.com/v1_1/dipnk9uvd/image/upload`, formData);
-          console.log(response,'responseeee');
           if (response.data.secure_url) {
 
             const imageUrl = response.data.secure_url;
@@ -84,7 +82,6 @@ const AddDepartment = () => {
 
   return (
     <>
-      <AdminNavbar />
 
       <Typography variant="h6" padding="3" textAlign="center">
         Add Department
@@ -92,12 +89,12 @@ const AddDepartment = () => {
 
       
       <Container
-        maxWidth="sm" // Adjust this as needed
+        maxWidth="sm" 
         style={{
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          height: '40vh', // Center vertically
+          height: '40vh', 
         }}
       >
         <Card elevation={3}>

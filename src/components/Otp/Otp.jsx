@@ -8,21 +8,17 @@ import axios from '../../services/axiosInterceptor.js'
 import { useLocation, useNavigate } from 'react-router-dom';
 import { toast } from "react-hot-toast";
 import PropTypes from 'prop-types'
-import Navbar from "../Navbar/Navbar";
-import DoctorNavbar from '../Doctor/DoctorNavbar';
 
 
 const Otp=({value})=>{
 
 
-    // console.log(value,'valueee from otp pageeeeee');
 
     const navigate=useNavigate()
 const [otp,setOtp]=useState(["","","",""]) // State to hold OTP digits
 //This function is used to update the otp state when a user enters a digit in one of the input fields.
 
 const {state}=useLocation()
-console.log(state,'___id');
 const handleOtpChange=(index, value)=>{
     if (value.match(/^\d*$/)) {
         const newOtpDigits=[...otp] //creating copy of otp arra
@@ -37,7 +33,6 @@ const handleOtpSubmit=async(e)=>{
         let ootp=otp.join('')
         const response= await axios.post(value==='doctor'?"doctor/otp":"/otp",{ootp,state})
 
-        console.log(response,'response of the otp sep 9');
         if(response.data.success){
             toast.success(response.data.message);
             if(value==='doctor'){
@@ -53,7 +48,6 @@ const handleOtpSubmit=async(e)=>{
         console.log(error.response.data,'errr');
         
         console.error('Error registering:', error);
-        // helpers.setErrors({ submit: error.message });
         toast.error("something went wrong");
     }
 }
@@ -73,7 +67,6 @@ const handleOtpResend=async(e)=>{
     } catch (error) {
         console.log(error.response.data,'errrrrrrrrrr');
         console.error('Error registering:', error);
-        // helpers.setErrors({ submit: error.message });
         toast.error("something went wrong");
     }
 }
