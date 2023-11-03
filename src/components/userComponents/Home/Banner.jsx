@@ -1,24 +1,14 @@
-import { Box,Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import React from "react";
 import bannerImg from "../../../Assets/PngItem_4554771.png";
-// import bannerImg from "../../../Assets/doctorr.jpg"
-import PropTypes from 'prop-types'
 
-
-const Banner = ({value}) => {
-   //PROPS
-   Banner.propTypes = {
-  value: PropTypes.string
-} 
-
+const Banner = ({ value }) => {
   return (
-
-    <>    
-
+    <>
       <Box
         sx={{
           backgroundColor: "#F5FCFD",
-          height: { xs: 300, sm: 350, md: 428,  },
+          height: { xs: 300, sm: 350, md: 428 },
           display: "flex",
           justifyContent: "space-between",
           width: "100%",
@@ -29,35 +19,25 @@ const Banner = ({value}) => {
             variant="h5"
             sx={{
               marginLeft: { xs: 2, sm: 5 },
-              marginTop: { xs: 8, sm: 12, md: 18},
-              fontSize: { xs: 15, sm: 25,md:30},
+              marginTop: { xs: 8, sm: 12, md: 18 },
+              fontSize: { xs: 15, sm: 25, md: 30 },
               fontWeight: 600,
             }}
           >
-Consult top doctors online for any health concern
+            Consult top doctors online for any health concern
           </Typography>
           <Typography
             variant="h6"
             sx={{
               marginLeft: { xs: 2, sm: 5 },
               marginTop: 1,
-              fontSize: { xs: 13, sm: 16,md:24},
+              fontSize: { xs: 13, sm: 16, md: 24 },
               fontWeight: 400,
             }}
           >
-          Private online consultations with verified doctors in all specialities
-
+            Private online consultations with verified doctors in all
+            specialities
           </Typography>
-          {/* <Button
-            sx={{
-              marginLeft: { xs: 2, sm: 5 },
-              marginTop: 2,
-              backgroundColor: "#FD810F",
-              color: "white",
-            }}
-          >
-            Show More
-          </Button> */}
         </Box>
         <Box>
           <Box

@@ -1,13 +1,17 @@
-import CircularProgress from '@mui/material/CircularProgress';
-import Box from '@mui/material/Box';
+import { Dna } from 'react-loader-spinner'
+
 function Loader() {
   return (
-  <>
-      <Box sx={{ display: 'flex' }}>
-        <CircularProgress />
-    </Box>
-
-</>
+    <div style={{ width: '100%', textAlign: 'center', marginTop: '15%', marginBottom: '20%' }}>
+      <Dna
+        visible={true}
+        height="80"
+        width="80"
+        ariaLabel="dna-loading"
+        wrapperStyle={{}}
+        wrapperClass="dna-wrapper"
+      />
+    </div>
   )
 }
 

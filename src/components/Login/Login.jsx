@@ -1,7 +1,6 @@
 import React,{useEffect} from 'react'
 import { Box, Button, TextField, Typography} from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
-import axios from '../../services/axiosInterceptor.js'
 import { useFormik } from "formik";
 import { toast } from "react-hot-toast";
 import { setUser } from "../../redux/UserSlice.js"
@@ -10,6 +9,7 @@ import { setAdmin} from "../../redux/AdminSlice.js"
 import { useDispatch } from "react-redux";
 import { userLoginSchema } from "../../validation/userLoginValidation.js"; 
 import PropTypes from 'prop-types'
+import { SignIn } from '../../services/APIs.js';
 
 
 
@@ -48,8 +48,9 @@ const formik=useFormik({
       onSubmit:async(values,helpers)=>{
         try {
 
-          const response= await axios.post(value==='doctor'?"/doctor/login":value==='admin'?"/admin/login":"/login" ,values)
-
+        //  const response= await axios.post(value==='doctor'?"/doctor/login":value==='admin'?"/admin/login":"/login",values)
+          
+        const response= await SignIn(value,values)
 
           if(response.data.success){
             toast.success(response.data.message)

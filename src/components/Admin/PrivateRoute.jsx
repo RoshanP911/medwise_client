@@ -7,7 +7,6 @@ import Loader from '../../components/Loader';
 const PrivateRoute = () => {
   
   const { admin } = useSelector((state) => state.admin);
-  // console.log(admin,'...admin private route..................');
 
 
   const location = useLocation();

@@ -3,7 +3,6 @@ import { Routes, Route } from "react-router-dom";
 
 
 import LandingPage from "../pages/User/LandingPage";
-import SignupPage from "../pages/SignupPage";
 import Otp from "../components/Otp/Otp.jsx";
 import Login from "../components/Login/Login.jsx";
 import ForgotPassword from "../components/Forgot Password/ForgotPassword.jsx";
@@ -18,6 +17,12 @@ import BookAppointment from '../components/userComponents/Home/BookAppointment'
 import ConfirmAppointment from "../components/userComponents/ConfirmAppointment";
 import Success from "../components/userComponents/Home/Success";
 import Cancel from "../components/userComponents/Home/Cancel";
+import SignUp from "../components/Signup/Signup";
+import Appointments from "../components/userComponents/Home/Appointments";
+import VideoCall from "../components/VideoCall";
+import FeedBack from "../components/userComponents/Home/Feedback";
+import Prescription from "../components/userComponents/Home/Prescription";
+import Reviews from "../components/userComponents/Home/Reviews";
 
                                        /* USER ROUTES */
 function User() {
@@ -28,10 +33,10 @@ return (
     {/* <Suspense fallback={<Loader />}>  */}
     <Routes>
     <Route path="/" element={<LandingPage/>}/>
-    <Route path="/register" element={<SignupPage/>}/>
+    <Route path="/register" element={<SignUp value={'user'}/>}/>
     <Route path="/otp" element={<Otp/>}/>
     <Route path="/resend-otp" element={<Otp/>}/>
-    <Route path="/login" element={<Login/>}/>
+    <Route path="/login" element={<Login value={'user'}/>}/> 
     <Route path="/forgot-password" element={<ForgotPassword/>}/>
     <Route path="/reset-password/:id/:token" element={<ResetPassword/>}/>
     <Route path="/find-doctors" element={<FindDoctors/>}/>
@@ -44,12 +49,18 @@ return (
        <Route path="/edit-profile" element={<EditProfile/>}/>
        <Route path="/book-appointment/:id" element={<BookAppointment/>}/>
        <Route path="/confirm-appointment" element={<ConfirmAppointment/>}/>
-       <Route path="/success" element={<Success/>}/>
+       <Route path="/success" element={<Success value={'user'}/>}/>
        <Route path="/cancel" element={<Cancel/>}/>
-
+       <Route path="/appointments" element={<Appointments/>}/>
+       <Route path="/call/:room" element={<VideoCall value={'user'}/>}/>
+       <Route path='/feedBack' element={<FeedBack />} />
+       <Route path='/prescription' element={<Prescription />} />
+       <Route path='/review' element={<Reviews />} />
 
 
        
+
+
 
 
     </Route>

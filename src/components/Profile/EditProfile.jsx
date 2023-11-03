@@ -19,6 +19,7 @@ import { setUser } from "../../redux/UserSlice.js";
 import Avatar from "@mui/material/Avatar";
 
 import Axios from "axios";
+import { uploadImage } from "../../services/APIs.js";
 
 const EditProfile = () => {
   const dispatch = useDispatch();
@@ -78,15 +79,7 @@ const EditProfile = () => {
     formData.append("upload_preset", "wjdg6veo");
     formData.append("cloud_name", "dipnk9uvd");
 
-    const response = await Axios.post(
-      `https://api.cloudinary.com/v1_1/dipnk9uvd/image/upload`,
-      formData
-    );
-
-
-
-
-
+    const response= await uploadImage(formData)
 
     //To Create a URL for the selected image and set it in the state
     // const imageUrl = URL.createObjectURL(selectedImage);

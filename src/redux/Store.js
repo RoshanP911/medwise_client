@@ -6,12 +6,15 @@ import { persistReducer,persistStore } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import { adminSlice } from "./AdminSlice";
 import { userSlice } from "./UserSlice";
+import {consultSlice} from './ConsultSlice'
 
 const rootReducer = combineReducers({
     alerts: alertsSlice.reducer,
     doctor: doctorSlice.reducer,
     admin: adminSlice.reducer,
-    user: userSlice.reducer
+    user: userSlice.reducer,
+    slot: consultSlice.reducer
+
 });
 
 const persistConfig = {

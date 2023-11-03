@@ -12,20 +12,16 @@ import {
   import React, { useState } from "react";
   import IconButton from "@mui/material/IconButton";
   import MenuIcon from "@mui/icons-material/Menu";
-  import NotificationsIcon from '@mui/icons-material/Notifications';
   import { Link, useNavigate} from "react-router-dom";
   import { useDispatch, useSelector } from "react-redux";
   import { setDoctor } from "../../redux/DoctorSlice";
-//   import PropTypes from 'prop-types'
-  // import { baseURL } from "../../../constants/constant";
+
   
   const DoctorNavbar = () => {
   const navigate=useNavigate()
    const dispatch =useDispatch()
   const {doctor} = useSelector((state)=>state.doctor)
   console.log(doctor,'this is doktoor redux from navbar');
-
-//console.log(doctor.is_verified,'(doctor.is_verified ');
 
     const [open, setOpen] = useState(false);
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -49,11 +45,6 @@ import {
     };
   
   
-  
-      //PROPS
-    //   DoctorNavbar.propTypes = {
-    //     value: PropTypes.string
-    //   } 
     
     return (
       <>
@@ -108,17 +99,13 @@ import {
                         Home
                       </Typography>
                       </Link>
-                      <Link to={'/doctors'}>
+                      <Link to={'/doctor/appointments'}>
                       <Typography sx={{color:'black'}} variant="h6" margin={2}>
-                        Doctors
+                        Appointments
                       </Typography>
                       </Link>
-                      <Link to={'/'}>
-                      <Typography sx={{color:'black'}} variant="h6" margin={2}>
-                      Plan & pricing
-                      </Typography>
-                      </Link>
-                      <Link to={'/user_profile'}>
+                
+                      <Link to={'/doctor/profile'}>
                       <Typography sx={{color:'black'}} variant="h6" margin={2}>
                         Profile
                       </Typography>
@@ -161,7 +148,7 @@ import {
                     marginRight: 3,
                   }}
                 >
-                   <Link to={'/plan_pricing'}style={{ textDecoration: 'none' }}>
+                   <Link to={'/doctor/appointments'}style={{ textDecoration: 'none' }}>
                   <Typography
                     sx={{ color: "#1959FD",cursor: "pointer"}}
                     variant="h6"
@@ -170,35 +157,19 @@ import {
                     Appointments
                   </Typography>
                   </Link>
-                  <Link to={'/doctors'}style={{ textDecoration: 'none' }}>
+
+
+                  <Link to={'/doctor/add-slot'}style={{ textDecoration: 'none' }}>
                   <Typography
                     sx={{ color: "#1959FD",cursor: "pointer"}}
                     variant="h6"
                     component="div"
                   >
-                    Video Consult
+                    Add Slot
                   </Typography>
                   </Link>
-                </Box>
-  
-                <Box
-                  sx={{
-                    display: { sm: "none", xs: "flex" },
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    gap: "2.25rem",
-                    marginRight: 3,
-                  }}
-                >
-                  <Link to={'/user_notification'}>
-                  <Typography
-                    sx={{ color: "black",mt:1}}
-                    variant="h6"
-                    component="div"
-                  >
-                     <NotificationsIcon/>
-                  </Typography>
-                  </Link>
+
+
                 </Box>
   
             {doctor&& doctor?(  
@@ -234,7 +205,6 @@ import {
                     onClose={handleClose}
                   >
                     <MenuItem onClick={handleClose}><Link style={{color:'black',fontSize:18,textDecoration: "none"}} to={'/doctor/profile'}>Profile</Link></MenuItem>
-                    <MenuItem onClick={handleClose}><Link style={{color:'black',fontSize:18,textDecoration: "none"}} to={'/doctor/add-slot'}>Add Slot</Link></MenuItem>
 
                     <MenuItem onClick={handleLogout}>Logout</MenuItem>
                   </Menu>

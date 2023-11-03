@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import axios from '../../services/axiosInterceptor.js';
 import styled from 'styled-components';
-import AdminNavbar from './AdminNavbar.jsx';
 import { Button } from '@mui/material';
-import { useDispatch } from "react-redux";
 import { toast } from "react-hot-toast";
-import { showLoading,hideLoading } from "../../redux/AlertSlice.js";
+import { userList } from '../../services/APIs.js';
+import Loader from '../Loader.jsx';
 
 
 const UserListContainer = styled.div`
@@ -43,54 +41,41 @@ const TableCell = styled.td`
 const UserList = () => {
   const [users, setUsers] = useState([]);
   const [refresh, setRefresh] = useState(false);
-
-  const dispatch = useDispatch();
-//BLOCKHANDLER
-
-const blockHandler=async(doctorId)=>{
-  try {
-    // dispatch(showLoading());
-    console.log(doctorId,'doctorIddoctorId');
-    const response=await axios.post('/admin/blockDoctor',{ doctorId:doctorId})
-    // dispatch(hideLoading());
-    console.log(response,'respopopo'); 
-
-
-    if(response.data.success){
-      toast.success(response.data.message)
-    }
-    else{
-      toast.error(response.data.message)
-    }
-
-  } catch (error) {
-    console.log(error);
-  }
-}
-
-
+  const [isLoading, setIsLoading] = useState(true);
 
 
   useEffect(() => {
     // Fetch user data when the component mounts or when 'refresh' changes.
     const getUser = async () => {
       try {
-        const response = await axios.get("admin/users");
-        console.log(response, 'admin response');
+      
+        const response = await userList();
+
         if (response.data.success) {
-          setUsers(response.data.userData); // Update the 'users' state with the fetched data.
+          setUsers(response.data.userData); 
         }
       } catch (error) {
         console.log(error);
       }
     }
-    getUser(); // Call the getUser function to fetch data when the component mounts.
+    getUser(); 
 
   }, [refresh]);
 
-  // if (!users || !users.length) {
-  //   return <div>No users to display.</div>;
-  // }
+
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
+  
+    return () => clearTimeout(timer);
+  }, []);
+  
+  if (isLoading) {
+    return <Loader />;
+  }
+
 
   return (
     <>
@@ -102,7 +87,6 @@ const blockHandler=async(doctorId)=>{
             <TableHeader>Name</TableHeader>
             <TableHeader>Email</TableHeader>
             <TableHeader>Mobile</TableHeader>
-            <TableHeader>Action</TableHeader>
           </tr>
         </thead>
         <tbody>
@@ -115,13 +99,12 @@ const blockHandler=async(doctorId)=>{
 
               <TableCell>
                 {/* <BlockButton >Block</BlockButton>  */}
-
+{/* 
                 <Button
                 variant="contained"
                 color="error"
-                // onClick={()=>blockHandler(user._id)}
                 
-                >Block</Button>
+                >Block</Button> */}
 
               
               </TableCell>

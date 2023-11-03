@@ -9,7 +9,7 @@ const Achievement = () => {
       <Card sx={{height:200,mt:4,ml:3,borderRadius:6 }}>
       <CardContent>
         <Typography variant="h5" component="div" sx={{fontSize:50,color:'#FD810F',fontWeight:700}} >
-        10+
+        5+
         </Typography>
         <Typography variant="body2"  sx={{fontSize:25,fontWeight:700}}>
         Years with you

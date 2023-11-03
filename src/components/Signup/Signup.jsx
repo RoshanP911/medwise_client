@@ -9,12 +9,11 @@ import { hideLoading } from "../../redux/AlertSlice";
 import { toast } from "react-hot-toast";
 import { setUser } from "../../redux/UserSlice";
 import PropTypes from 'prop-types'
-
+import { Register } from "../../services/APIs";
 
 const SignUp = ({value}) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
   useEffect(() => {
     if (localStorage.getItem("usertoken")) {
       navigate("/");
@@ -34,9 +33,16 @@ const SignUp = ({value}) => {
     validationSchema: userSchema,
     onSubmit: async (values, helpers) => {
       try {    //in axios.post wer posting directly to backend server 
-        const response = await axios.post(value==='doctor'?"/doctor/register":"/register", 
-          values
-        );
+
+        // const response = await axios.post(value==='doctor'?"/doctor/register":"/register", 
+        //   values
+        // );
+        const response = await Register(value, 
+        values
+      );
+
+
+
         console.log(response,'response from signuppppp');
 
 
@@ -107,7 +113,7 @@ const SignUp = ({value}) => {
 
           </Box>
           <Typography variant="h4" padding={3} textAlign="center">
-            Sign up
+            Sign up 
           </Typography>
           <Grid
             container

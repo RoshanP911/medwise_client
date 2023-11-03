@@ -1,12 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Button,
   Grid,
   TextField,
   Typography,
   FormLabel,
-} from "@mui/material";
-import {
+  MenuItem,
   FormControl,
   FormControlLabel,
   Radio,
@@ -26,24 +25,35 @@ import { setDoctor } from "../../redux/DoctorSlice";
 import PropTypes from "prop-types";
 import { Container } from "@mui/material";
 import { DoctorDetailsSchema } from "../../validation/doctorDetailsValidation";
-import { useLocation } from 'react-router-dom';
-
-
-
+import { useLocation } from "react-router-dom";
+import { getSpecialisations } from "../../services/APIs.js";
 
 const DoctorDetails = ({ value }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [selectedFile, setSelectedFile] = useState(null);
-  
+  const [specialisations, setSpecialisations] = useState([]);
 
-const location = useLocation(); // to access the current location in our application.
-const docData = location.state && location.state.docData; //attempts to extract data named docData from the state of the current location. 
-//If the state contains docData, it is assigned to the docData variable. 
+  const location = useLocation(); // to access the current location in our application.
+  const docData = location.state && location.state.docData; //attempts to extract data named docData from the state of the current location.
+  //If the state contains docData, it is assigned to the docData variable.
 
+  const fetchSpecialisations = async () => {
+    try {
+      const response = await getSpecialisations();
+      if (response.data.success) {
+        setSpecialisations(response.data.departmentNames);
+      }
+    } catch (error) {
+      console.error("Error fetching specialisations:", error);
+    }
+  };
 
+  useEffect(() => {
+    fetchSpecialisations();
+  }, []);
 
-//Handling File Upload
+  //Handling File Upload
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     setSelectedFile(file);
@@ -55,52 +65,36 @@ const docData = location.state && location.state.docData; //attempts to extract 
     if (selectedFile) {
       const formData = new FormData();
       formData.append("file", selectedFile);
-      formData.append("upload_preset", "wjdg6veo"); 
+      formData.append("upload_preset", "wjdg6veo");
       formData.append("cloud_name", "dipnk9uvd");
-      // console.log(formData,'formDataformDataformData if dog detilas');
 
       try {
         const response = await Axios.post(
           `https://api.cloudinary.com/v1_1/dipnk9uvd/image/upload`,
           formData
         );
-        // console.log(response, "responseeee");
-        // console.log("File uploaded:", selectedFile);
 
         if (response.data.secure_url) {
           // Getting the uploaded image URL from Cloudinary
           const fileUrl = response.data.secure_url;
-        
 
-        
+          // after uploading the file, proceed with form submission
+          const formValues = formik.values; // to get form data from formik
+          formValues.file = selectedFile; // add the uploaded file to the form data
+          const doccData = docData._id;
+          const allData = { doccData, ...formValues, fileUrl };
 
-        // after uploading the file, proceed with form submission
-        const formValues = formik.values; // to get form data from formik
-        formValues.file = selectedFile; // add the uploaded file to the form data
-        const doccData=docData._id
-        const allData={doccData,...formValues,fileUrl}
+          const formResponse = await axios.post("/doctor/details", allData);
 
-        const formResponse = await axios.post(
-           "/doctor/details",
-           allData
-        );
- 
-        // console.log(formResponse, "response from /doctor/detaildetails");
+          dispatch(hideLoading());
+          if (formResponse.data.success) {
+            navigate("/doctor/home");
+            toast.success(formResponse.data.message);
 
-        dispatch(hideLoading());
-        if (formResponse.data.success) {
-          navigate('/doctor/home')
-          toast.success(formResponse.data.message);
-
-          // console.log(
-          //   formResponse.data,
-          //   "values from formResponse.dataresponse.dataresponse.data"
-          // );
-
-        } else {
-          toast.error(formResponse.data.message);
+          } else {
+            toast.error(formResponse.data.message);
+          }
         }
-      }
       } catch (error) {
         console.error("Error uploading file:", error);
         toast.error("Something went wrong");
@@ -122,25 +116,13 @@ const docData = location.state && location.state.docData; //attempts to extract 
       gender: "",
     },
     validationSchema: DoctorDetailsSchema,
-    onSubmit: () => {
-    },
+    onSubmit: () => {},
   });
 
   // PROPS
   DoctorDetails.propTypes = {
     value: PropTypes.string,
   };
-
-
-
-
-
-
-
-
-
-
-
 
   return (
     <>
@@ -149,7 +131,7 @@ const docData = location.state && location.state.docData; //attempts to extract 
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <Typography variant="h6" align="center">
-                Let's complete your registration, {docData.name} 
+                Let's complete your registration, {docData.name}
               </Typography>
             </Grid>
             <Grid item xs={4}>
@@ -224,18 +206,18 @@ const docData = location.state && location.state.docData; //attempts to extract 
             </Grid>
 
             <Grid item xs={6}>
-              <TextField
-                sx={{ backgroundColor: "white" }}
-                margin="normal"
-                type={"text"}
-                label="Specialisation"
+              <select
                 name="specialisation"
                 value={formik.values.specialisation}
-                error={formik.errors.specialisation}
-                helperText={formik.errors.specialisation}
                 onChange={formik.handleChange}
-                variant="outlined"
-              />
+              >
+                <option value="">Select Specialisation</option>
+                {specialisations.map((option) => (
+                  <option key={option} value={option}>
+                    {option}
+                  </option>
+                ))}
+              </select>
             </Grid>
 
             <Grid item xs={6}>
@@ -303,7 +285,6 @@ const docData = location.state && location.state.docData; //attempts to extract 
               >
                 Confirm
               </Button>
-              
             </Grid>
           </Grid>
         </form>

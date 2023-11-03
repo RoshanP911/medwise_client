@@ -1,62 +1,59 @@
 //USER BOOKING APPOINTMENT
-import { Avatar, Box, Button, Card, CardContent, Typography } from "@mui/material";
+import {
+  Avatar,
+  Box,
+  Button,
+  Card,
+  CardContent,
+  Typography,
+} from "@mui/material";
 import { useEffect, useState } from "react";
-import { useParams,useNavigate } from 'react-router-dom'
-import axios from '../../../services/axiosInterceptor';
+import { useParams, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-
+import { singleDoctorDetails } from "../../../services/APIs.js";
 
 
 const BookAppointment = () => {
-    const {id}=useParams()
-    const { user } = useSelector((state) => state.user);
-    const navigate = useNavigate();
+  const { id } = useParams();
+  const { user } = useSelector((state) => state.user);
+  const navigate = useNavigate();
 
+  const [doctor, setDoctor] = useState([]);
+  const [availableSlots, setAvailableSlots] = useState([]);
 
-    const [doctor, setDoctor] = useState([]);
-    const [availableSlots, setAvailableSlots] = useState([]);
-    
-
-
-const handleBooking=async(value)=>{
-  try {
-    const response = await axios.post("/book-appointment", {doctor,user,value});
-
-    if (response.data.success) {
-      const apptData=response.data.appointmentData
-      navigate('/confirm-appointment',{state:{ apptData: apptData}})
-      }
-  } catch (error) {
-    console.log(error);
-  }
-}
-
-
-const fetchDctorDetails = async (id) => {
+  //new slot select fn
+  const slotSelect = async (value) => {
     try {
-      const response = await axios.get(`/singleDoctorDetails/${id}`, {});
-      console.log(response,'popopoo');
+        navigate("/confirm-appointment", { state: { doctor,user,value} });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+
+
+
+  const fetchDctorDetails = async (id) => {
+    try {
+      const response = await singleDoctorDetails(id)    
+
       if (response.data.success) {
         setDoctor(response.data.data);
       }
-    } 
-    catch (error) {
-        console.log(error);
-      }
-}
-    useEffect(()=>{
-        fetchDctorDetails(id)
-    },[])
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    fetchDctorDetails(id);
+  }, []);
 
-    useEffect(() => {
-        // When the 'doctor' state updates, set 'availableSlots' with 'doctor.availableSlots'
-        setAvailableSlots(doctor?.availableSlots || []);
-      }, [doctor]);
+  useEffect(() => {
+    setAvailableSlots(doctor?.availableSlots || []);
+  }, [doctor]);
 
-return(
-
-
-<>
+  return (
+    <>
       <section style={{ marginTop: "50px", marginBottom: "80px" }}>
         <Box sx={{ width: "90%", marginLeft: "auto", marginRight: "auto" }}>
           <Typography
@@ -92,12 +89,12 @@ return(
                         height: "150px",
                         mt: 5,
                       }}
-                    //   alt={doctor?.name}
-                    //   src={`${baseURL}${doctor?.profile}`}
-                    src="https://as2.ftcdn.net/v2/jpg/02/60/04/09/1000_F_260040900_oO6YW1sHTnKxby4GcjCvtypUCWjnQRg5.jpg"
+                      //   alt={doctor?.name}
+                      //   src={`${baseURL}${doctor?.profile}`}
+                      src="https://as2.ftcdn.net/v2/jpg/02/60/04/09/1000_F_260040900_oO6YW1sHTnKxby4GcjCvtypUCWjnQRg5.jpg"
                     />
                   </Box>
-                  <CardContent >
+                  <CardContent>
                     <Typography
                       gutterBottom
                       variant="h5"
@@ -134,7 +131,7 @@ return(
                     >
                       {doctor?.specialisation}
                     </Typography>
-                    
+
                     <Typography
                       variant="body2"
                       color="text.secondary"
@@ -144,20 +141,11 @@ return(
                         fontSize: 14,
                       }}
                     >
-                    Fees: Rs{doctor?.videoCallFees}
+                      Fees: Rs{doctor?.videoCallFees}
                     </Typography>
-
-
-                 
-
-
-
                   </CardContent>
                 </Card>
               </Box>
-
-
-
 
               <Box sx={{ flex: { md: "0 0 75%" } }}>
                 <Box
@@ -169,13 +157,12 @@ return(
                   }}
                 >
                   <Box sx={{ flex: "0 0 50%" }}>
-               
-                    <Typography variant="body1" sx={{ fontSize: 18 }}>
-      
-                    </Typography>
+                    <Typography
+                      variant="body1"
+                      sx={{ fontSize: 18 }}
+                    ></Typography>
                   </Box>
                 </Box>
-      
 
                 <Box
                   sx={{
@@ -187,25 +174,26 @@ return(
                     marginBottom: "1.5rem",
                   }}
                 >
-                       <Typography variant="body1" sx={{ fontSize: 16 }}>
-                        Available Slots :
-                        </Typography>
-                    
-            
-                  {availableSlots.map((value) => (
-  <Button
-    key={value} // Adds a unique key prop if availableSlots contains unique values
-    variant="outlined"
-    onClick={() => handleBooking(value)} 
-    style={{ marginRight: '10px', marginBottom: '10px' }}
-  >
-    {value}
-  </Button>
-))}
+                  <Typography variant="body1" sx={{ fontSize: 16 }}>
+                    Available Slots :
+                  </Typography>
+                 {availableSlots.length > 0 ? (
 
-             
+                  availableSlots.map((value) => (
+                    <Button
+                      key={value}
+                      variant="outlined"
+                      onClick={() => slotSelect(value)}
+
+                      style={{ marginRight: "10px", marginBottom: "10px" }}
+                    >
+                      {value}
+                    </Button>
+                  ))):(
+               <p>  No slots</p>
+                  )}
                 </Box>
-              
+
                 <Box
                   sx={{
                     display: "flex",
@@ -215,21 +203,14 @@ return(
                     mt: 5,
                     marginBottom: "1.5rem",
                   }}
-                >
-                      
-                </Box>
+                ></Box>
               </Box>
             </Box>
-            
           </Box>
         </Box>
       </section>
     </>
-
-
-)
-
-}
-
+  );
+};
 
 export default BookAppointment;

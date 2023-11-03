@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
-import axios from '../../services/axiosInterceptor.js';
-import Axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { useFormik } from 'formik';
  import { addDeptSchema } from '../../validation/addDeptSchemaValidation.js';
 import { showLoading, hideLoading } from '../../redux/AlertSlice.js';
 import { toast } from 'react-hot-toast';
 import { TextField, Typography, Button, Card, CardContent, Container } from '@mui/material';
+import {addDepartment, uploadImage} from '../../services/APIs.js'
 
 const AddDepartment = () => {
   const dispatch = useDispatch();
@@ -31,7 +30,7 @@ const AddDepartment = () => {
           formData.append('cloud_name', 'dipnk9uvd'); 
 
           console.log(formData,'formdataaaa');
-          const response = await Axios.post(`https://api.cloudinary.com/v1_1/dipnk9uvd/image/upload`, formData);
+          const response= await uploadImage(formData)
           if (response.data.secure_url) {
 
             const imageUrl = response.data.secure_url;
@@ -41,7 +40,8 @@ const AddDepartment = () => {
               imageUrl: imageUrl, 
             };
             
-            const departmentResponse = await axios.post('admin/add_department', departmentData);
+            const departmentResponse = await addDepartment(departmentData);
+
 
             dispatch(hideLoading());
             if (departmentResponse.data.success) {

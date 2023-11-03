@@ -167,13 +167,23 @@ const Navbar = () => {
                     Find Doctors
                   </Typography>
                 </Link>
-                <Link to={"/doctors"} style={{ textDecoration: "none" }}>
+                <Link to={"/prescription"} style={{ textDecoration: "none" }}>
                   <Typography
                     sx={{ color: "#1959FD", cursor: "pointer" }}
                     variant="h6"
                     component="div"
                   >
-                    Video Consult
+                    Prescriptions
+                  </Typography>
+                </Link>
+
+                <Link to={"/appointments"} style={{ textDecoration: "none" }}>
+                  <Typography
+                    sx={{ color: "#1959FD", cursor: "pointer" }}
+                    variant="h6"
+                    component="div"
+                  >
+                    Appointments
                   </Typography>
                 </Link>
               </Box>

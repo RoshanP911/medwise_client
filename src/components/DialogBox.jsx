@@ -5,15 +5,16 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import axios from "../services/axiosInterceptor";
 import toast from "react-hot-toast";
+import { doctorBlockUnblock } from "../services/APIs";
+import { approveDoctor } from "../services/APIs";
+import { documentDownload } from "../services/APIs";
 
 
 //from material ui
 export default function DialogBox({ name, col, id, refreshHandler }) {
   const [open, setOpen] = React.useState(false);
   const [refresh, setRefresh] = React.useState(false);
-  //   const [id, setId] = React.useState(drId);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -24,13 +25,12 @@ export default function DialogBox({ name, col, id, refreshHandler }) {
   };
 
 
+  const data= { doctorId:id };
 
   //TO BLOCK DOCTOR
-  const confirmBlockAction = async () => {
+ const confirmBlockAction = async () => {
     try {
-      const response = await axios.post("/admin/blockDoctor", {
-        doctorId: id,
-      });
+      const response=await doctorBlockUnblock(data)
 
       if (response.data.success) {
         toast.success(response.data.message);
@@ -48,9 +48,7 @@ export default function DialogBox({ name, col, id, refreshHandler }) {
 //TO APPROVE DOCTOR
   const confirmApprove = async () => {
     try {
-      const response = await axios.post("/admin/approveDoctor", {
-        doctorId: id,
-      });
+      const response=await approveDoctor(data)
 
       setRefresh(!refresh);
 
@@ -69,9 +67,8 @@ export default function DialogBox({ name, col, id, refreshHandler }) {
   //Function to trigger PDF download from Cloudinary
   const handleDownload = async () => {
     try {
-      const response = await axios.post("/admin/doc-document", {
-        doctorId: id,
-      });
+      const response=await documentDownload(data)
+
       const dataa = response.data.data;
       const response1 = await fetch(`${dataa}`);
       const blob = await response1.blob();
@@ -106,8 +103,7 @@ export default function DialogBox({ name, col, id, refreshHandler }) {
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            {/* Let Google help apps determine location. This means sending
-            anonymous location data to Google, even when no apps are running. */}
+
           </DialogContentText>
         </DialogContent>
         <DialogActions>

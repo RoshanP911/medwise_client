@@ -6,6 +6,7 @@ import { toast } from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { hideLoading } from "../../redux/AlertSlice.js";
 import { forgotPassSchema } from '../../validation/forgotPasswordValidation.js';
+import { forgotPassword } from '../../services/APIs.js';
 
 
 
@@ -20,7 +21,9 @@ const formik=useFormik({
       validationSchema:forgotPassSchema,
       onSubmit:async(values,helpers)=>{
         try {
-          const response= await axios.post("/forgot-password",values)
+          //const response= await axios.post("/forgot-password",values)
+          const response=await forgotPassword(values)
+
           console.log(response,'responsessssssssss');
           dispatch(hideLoading());
           if(response.data.success){

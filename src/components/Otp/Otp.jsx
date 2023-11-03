@@ -4,15 +4,15 @@ import {
   } from "@mui/material";
 import React, { useState } from 'react';
 import './Otp.css'; 
-import axios from '../../services/axiosInterceptor.js'
+//import axios from '../../services/axiosInterceptor.js'
 import { useLocation, useNavigate } from 'react-router-dom';
 import { toast } from "react-hot-toast";
 import PropTypes from 'prop-types'
+import { OTPSend } from "../../services/APIs";
+import { OTPResend } from "../../services/APIs";
 
 
 const Otp=({value})=>{
-
-
 
     const navigate=useNavigate()
 const [otp,setOtp]=useState(["","","",""]) // State to hold OTP digits
@@ -31,7 +31,8 @@ const handleOtpSubmit=async(e)=>{
     e.preventDefault()
     try {
         let ootp=otp.join('')
-        const response= await axios.post(value==='doctor'?"doctor/otp":"/otp",{ootp,state})
+        //const response= await axios.post(value==='doctor'?"doctor/otp":"/otp",{ootp,state})
+        const response=await OTPSend(value,ootp,state)
 
         if(response.data.success){
             toast.success(response.data.message);
@@ -55,7 +56,9 @@ const handleOtpSubmit=async(e)=>{
 const handleOtpResend=async(e)=>{
     e.preventDefault()
     try {
-        const response= await axios.post(value==='doctor'?"doctor/resend-otp":"/resend-otp",{state})
+        //const response= await axios.post(value==='doctor'?"doctor/resend-otp":"/resend-otp",{state})
+        const response= await OTPResend(value,state)
+
         if(response.data.success){
             setCounter(59);
           }

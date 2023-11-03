@@ -10,6 +10,11 @@ import DoctorResetPassword from "../components/Reset Password/DoctorResetPasswor
 import DoctorNavbar from "../components/Doctor/DoctorNavbar.jsx";
 import PrivateRoute from "../components/Doctor/PrivateRoute.jsx";
 import AddSlot from "../components/Doctor/AddSlot.jsx";
+import DoctorHome from "../components/Doctor/DoctorHome.jsx";
+import DocAppointment from "../components/Doctor/DoctorAppointments.jsx";
+import VideoCall from "../components/VideoCall.jsx";
+import CreatePrescription from "../components/Doctor/CreatePrescription.jsx";
+import Success from "../components/userComponents/Home/Success.jsx";
 
 
 
@@ -29,11 +34,16 @@ return (
 
 
     <Route path="" element={<PrivateRoute/>}> 
-        <Route path="/home" element={<Banner />}/> 
+        <Route path="/home" element={<DoctorHome />}/> 
         <Route path="/details" element={<DoctorDetails  />}/>
-        <Route path="/add-slot" element={<AddSlot  />}/>
-        
-        
+        <Route path="/add-slot" element={<AddSlot/>}/>
+        <Route path="/appointments" element={<DocAppointment/>}/>
+        <Route path="/call/:room" element={<VideoCall value={'doctor'}/>}/>
+        <Route path="/success" element={<Success value={'doctor'}/>}/>
+        <Route path="/create-prescription" element={<CreatePrescription/>}/>
+
+
+
 
 
     </Route>
