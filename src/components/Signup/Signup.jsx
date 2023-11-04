@@ -43,18 +43,18 @@ const SignUp = ({value}) => {
 
 
 
-        console.log(response,'response from signuppppp');
+        // console.log(response,'response from signuppppp');
 
 
         dispatch(hideLoading());
         if (response.data.success) {
           toast.success(response.data.message);
    
-          console.log(response.data,'values from response.datares');
+          // console.log(response.data,'values from response.datares');
 
           // dispatch(setUser(values));
           // dispatch(setUser(response))
-          console.log( response.data,'response.data from otp submnitn');
+          // console.log( response.data,'response.data from otp submnitn');
           const id=response.data.user._id
           // dispatch(setUser(id)) 
 
@@ -92,7 +92,7 @@ const SignUp = ({value}) => {
       <form onSubmit={formik.handleSubmit}>
         <Box
           sx={{
-            backgroundColor: "#fafaf0",
+            backgroundColor: "#d0eff5",
             display: "flex",
             flexDirection: "column",
             width:{xs:"75%",sm:500},

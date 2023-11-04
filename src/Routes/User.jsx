@@ -34,8 +34,8 @@ return (
     <Routes>
     <Route path="/" element={<LandingPage/>}/>
     <Route path="/register" element={<SignUp value={'user'}/>}/>
-    <Route path="/otp" element={<Otp/>}/>
-    <Route path="/resend-otp" element={<Otp/>}/>
+    <Route path="/otp" element={<Otp value={'user'}/>}/>
+    <Route path="/resend-otp" element={<Otp value={'user'}/>}/>
     <Route path="/login" element={<Login value={'user'}/>}/> 
     <Route path="/forgot-password" element={<ForgotPassword/>}/>
     <Route path="/reset-password/:id/:token" element={<ResetPassword/>}/>

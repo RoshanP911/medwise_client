@@ -30,8 +30,6 @@ const EditProfile = () => {
   const [imageUrl, setImageUrl] = useState(null);
   const imageInputRef = useRef(null);
 
-  console.log(user, "user from useSelectorrr");
-
   const formik = useFormik({
     initialValues: {
       name: user ? user.name : "",
