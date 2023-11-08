@@ -6,11 +6,13 @@ import {
   Card,
   CardContent,
   Typography,
+  Divider, Grid, Paper, Rating, useMediaQuery
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { singleDoctorDetails } from "../../../services/APIs.js";
+import axios from "../../../services/axiosInterceptor.js";
 
 
 const BookAppointment = () => {
@@ -20,6 +22,51 @@ const BookAppointment = () => {
 
   const [doctor, setDoctor] = useState([]);
   const [availableSlots, setAvailableSlots] = useState([]);
+  const [ratings, setratings] = useState([])
+  const [avgReview, setavgReview] = useState(0)
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(2);
+
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`/get-rating/${id}`, {
+          params: { page, limit },
+        });
+        setratings(response.data.allRatings);
+        setavgReview(response.data.averageRating)
+
+
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+
+  const fetchMoreRatings = async () => {
+    try {
+      setPage(page + 1)
+      const response = await axios.get(`/get-ratings/${id}`, {
+        params: { page: page + 1, limit }
+      });
+
+
+      setratings((prevRatings) => [...prevRatings, ...response.data.allRatings]);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleSeeMore = () => {
+    setPage(page + 1);
+    fetchMoreRatings()
+  };
+
+
 
   //new slot select fn
   const slotSelect = async (value) => {
@@ -51,6 +98,8 @@ const BookAppointment = () => {
   useEffect(() => {
     setAvailableSlots(doctor?.availableSlots || []);
   }, [doctor]);
+
+  const isMobile = useMediaQuery('(max-width:600px)');
 
   return (
     <>
@@ -209,6 +258,28 @@ const BookAppointment = () => {
           </Box>
         </Box>
       </section>
+
+
+      <Grid display={'flex'} marginLeft={9} mb={2}>
+            <Paper variant="outlined" sx={{ display: 'flex', flexDirection: 'column', width: isMobile ? '100%' : 900, m: 3, boxShadow: 4, }}>
+              <Typography variant="h4" ml={2} mt={2}>Ratings & Reviews</Typography>
+              <Divider sx={{ mx: 2, mt: 1 }} />
+              <Grid display={'flex'}>
+              <Typography variant="h5" ml={2} mt={1.8}>{avgReview}</Typography>
+              <Rating sx={{ml:1,mt:2}} name="half-rating-read" value={avgReview} precision={0.5} readOnly /></Grid>
+              {ratings.length === 0 ? (<Grid><Typography variant="button" sx={{ ml: 2, mt: 2, fontSize: 20, }}>No Rating yet</Typography></Grid>) : (ratings && ratings.map((element) => {
+                return (<Grid  key={element._id} marginTop={1} marginBottom={1.5}>
+                  <Typography variant="button" sx={{ ml: 2, fontSize: 15, }}>{element.userId.name}</Typography>
+                  <Typography variant="h5" sx={{ ml: 2, fontSize: 12 }}>{element.createdAt}</Typography>
+                  <Typography variant="h5" sx={{ ml: 2, fontSize: 13, }}>"{element.feedback}"</Typography>
+                </Grid>)
+              }))}
+              {ratings.length !== 0 ?(<Grid textAlign={'center'} mb={3}><Button onClick={handleSeeMore} variant="contained" color="primary">see more</Button>
+              </Grid>):(null)}
+
+
+            </Paper>
+          </Grid>
     </>
   );
 };

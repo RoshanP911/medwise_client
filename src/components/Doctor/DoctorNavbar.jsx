@@ -1,183 +1,210 @@
 import {
-    AppBar,
-    Avatar,
-    Box,
-    Button,
-    Drawer,
-    Menu,
-    MenuItem,
-    Toolbar,
-    Typography,
-  } from "@mui/material";
-  import React, { useState } from "react";
-  import IconButton from "@mui/material/IconButton";
-  import MenuIcon from "@mui/icons-material/Menu";
-  import { Link, useNavigate} from "react-router-dom";
-  import { useDispatch, useSelector } from "react-redux";
-  import { setDoctor } from "../../redux/DoctorSlice";
+  AppBar,
+  Avatar,
+  Box,
+  Button,
+  Drawer,
+  Menu,
+  MenuItem,
+  Toolbar,
+  Typography,
+} from "@mui/material";
+import React, { useState } from "react";
+import IconButton from "@mui/material/IconButton";
+import MenuIcon from "@mui/icons-material/Menu";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { setDoctor } from "../../redux/DoctorSlice";
 
-  
-  const DoctorNavbar = () => {
-  const navigate=useNavigate()
-   const dispatch =useDispatch()
-  const {doctor} = useSelector((state)=>state.doctor)
-  console.log(doctor,'this is doktoor redux from navbar');
+const DoctorNavbar = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { doctor } = useSelector((state) => state.doctor);
 
-    const [open, setOpen] = useState(false);
-    const [anchorEl, setAnchorEl] = React.useState(null);
-    
-    const handleMenu = (event) => {
-      setAnchorEl(event.currentTarget);
-    };
-  
-    const handleClose = () => {
-      setAnchorEl(null);
-    };
-    const handleCloseDrawer = () => {
-      setOpen(false);
-    };
-    const handleLogout = () => {
-      
-      localStorage.removeItem('doctortoken');
-      dispatch(setDoctor(null))
-      setAnchorEl(null);
-      navigate("/doctor/login")
-    };
-  
-  
-    
-    return (
-      <>
-        <Box sx={{ flexGrow: 1 }}>
-          <AppBar
-            sx={{ backgroundColor: "#E9FBFF",position: "sticky" }}
-            elevation={0}
+  const [open, setOpen] = useState(false);
+  const [anchorEl, setAnchorEl] = React.useState(null);
+
+  const handleMenu = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+  const handleCloseDrawer = () => {
+    setOpen(false);
+  };
+  const handleLogout = () => {
+    localStorage.removeItem("doctortoken");
+    dispatch(setDoctor(null));
+    setAnchorEl(null);
+    navigate("/doctor/login");
+  };
+
+  return (
+    <>
+      <Box sx={{ flexGrow: 1 }}>
+        <AppBar
+          sx={{ backgroundColor: "#E9FBFF", position: "sticky" }}
+          elevation={0}
+        >
+          <Toolbar
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+            }}
           >
-            <Toolbar
+            <Box
               sx={{
                 display: "flex",
                 justifyContent: "space-between",
               }}
             >
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                }}
+              <IconButton
+                size="large"
+                edge="start"
+                color="inherit"
+                aria-label="menu"
+                sx={{ mr: 2, display: { xs: "block", sm: "none" } }}
               >
-                <IconButton
-                  size="large"
-                  edge="start"
-                  color="inherit"
-                  aria-label="menu"
-                  sx={{ mr: 2, display: { xs: "block", sm: "none" } }}
-                >
-                  <Button onClick={() => setOpen(true)}>
-                    <MenuIcon sx={{ color: "#000000" }} />
-                  </Button>
-                  <Drawer anchor="left" open={open} onClose={handleCloseDrawer}>
-                    <Box
-                      role="presentation"
-                      onClick={handleCloseDrawer}
-                      onKeyDown={handleCloseDrawer}
-                      marginTop={4}
-                      marginLeft={2}
-                      gap={333}
-                      sx={{ width: 200 }}
+                <Button onClick={() => setOpen(true)}>
+                  <MenuIcon sx={{ color: "#000000" }} />
+                </Button>
+                <Drawer anchor="left" open={open} onClose={handleCloseDrawer}>
+                  <Box
+                    role="presentation"
+                    onClick={handleCloseDrawer}
+                    onKeyDown={handleCloseDrawer}
+                    marginTop={4}
+                    marginLeft={2}
+                    gap={333}
+                    sx={{ width: 200 }}
+                  >
+                    <Typography
+                      sx={{
+                        color: "#FD810F",
+                        m: 2,
+                      }}
+                      variant="h5"
                     >
-                       <Typography
-                  sx={{
-                    color: "#FD810F",
-                    m:2,
-                  }}
-                  variant="h5"
-                >
-                  MEDWISE
-                </Typography>
-                      <Link to={'/'}>
-                      <Typography sx={{color:'black'}} variant="h6" margin={2}>
+                      MEDWISE
+                    </Typography>
+                    <Link to={"/"}>
+                      <Typography
+                        sx={{ color: "black" }}
+                        variant="h6"
+                        margin={2}
+                      >
                         Home
                       </Typography>
-                      </Link>
-                      <Link to={'/doctor/appointments'}>
-                      <Typography sx={{color:'black'}} variant="h6" margin={2}>
+                    </Link>
+
+                    <Link to={"/doctor/appointments"}>
+                      <Typography
+                        sx={{ color: "black" }}
+                        variant="h6"
+                        margin={2}
+                      >
                         Appointments
                       </Typography>
-                      </Link>
-                
-                      <Link to={'/doctor/profile'}>
-                      <Typography sx={{color:'black'}} variant="h6" margin={2}>
+                    </Link>
+
+                    <Link to={"/doctor/add-slot"}>
+                      <Typography
+                        sx={{ color: "black" }}
+                        variant="h6"
+                        margin={2}
+                      >
+                        Add Slot
+                      </Typography>
+                    </Link>
+
+                    <Link to={"/doctor/profile"}>
+                      <Typography
+                        sx={{ color: "black" }}
+                        variant="h6"
+                        margin={2}
+                      >
                         Profile
                       </Typography>
-                      </Link>
-                    </Box>
-                  </Drawer>
-                </IconButton>
+                    </Link>
+                  </Box>
+                </Drawer>
+              </IconButton>
 
-
-                
-                <Typography
-  sx={{
-    fontFamily: 'Arial, sans-serif',
-    fontWeight: 'bold',
-    fontSize: '36px',
-    color: '#215acc',
-    letterSpacing: '1px',
-    marginBottom: '10px',
-    textAlign: 'center',
-    textShadow: '2px 2px 4px rgba(0, 0, 0, 0.2)',
-  }}
-  variant="h5"
->
-  MEDWISE
-</Typography>
-              </Box>
+              <Typography
+                sx={{
+                  fontFamily: "Arial, sans-serif",
+                  fontWeight: "bold",
+                  fontSize: "36px",
+                  color: "#215acc",
+                  letterSpacing: "1px",
+                  marginBottom: "10px",
+                  textAlign: "center",
+                  textShadow: "2px 2px 4px rgba(0, 0, 0, 0.2)",
+                }}
+                variant="h5"
+              >
+                MEDWISE
+              </Typography>
+            </Box>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+              }}
+            >
               <Box
                 sx={{
-                  display: "flex",
+                  display: { sm: "flex", xs: "none" },
                   alignItems: "center",
                   justifyContent: "space-between",
+                  gap: "2.25rem",
+                  marginRight: 3,
                 }}
               >
-                <Box
-                  sx={{
-                    display: { sm: "flex", xs: "none" },
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    gap: "2.25rem",
-                    marginRight: 3,
-                  }}
+                <Link
+                  to={"/doctor/appointments"}
+                  style={{ textDecoration: "none" }}
                 >
-                   <Link to={'/doctor/appointments'}style={{ textDecoration: 'none' }}>
                   <Typography
-                    sx={{ color: "#1959FD",cursor: "pointer"}}
+                    sx={{ color: "#1959FD", cursor: "pointer" }}
                     variant="h6"
                     component="div"
                   >
                     Appointments
                   </Typography>
-                  </Link>
+                </Link>
 
-
-                  <Link to={'/doctor/add-slot'}style={{ textDecoration: 'none' }}>
+                <Link to={"/doctor/review"} style={{ textDecoration: "none" }}>
                   <Typography
-                    sx={{ color: "#1959FD",cursor: "pointer"}}
+                    sx={{ color: "#1959FD", cursor: "pointer" }}
+                    variant="h6"
+                    component="div"
+                  >
+                    Reviews
+                  </Typography>
+                </Link>
+
+                <Link
+                  to={"/doctor/add-slot"}
+                  style={{ textDecoration: "none" }}
+                >
+                  <Typography
+                    sx={{ color: "#1959FD", cursor: "pointer" }}
                     variant="h6"
                     component="div"
                   >
                     Add Slot
                   </Typography>
-                  </Link>
+                </Link>
+              </Box>
 
-
-                </Box>
-  
-            {doctor&& doctor?(  
-             
-
-                <Box
-                sx={{display: { sm: "flex", xs: "none" },}}
-                >   {console.log(doctor,'doc frm docnavbarr')};
+              {doctor && doctor ? (
+                <Box sx={{ display: { sm: "flex", xs: "none" } }}>
+                  {" "}
+                  {console.log(doctor, "doc frm docnavbarr")};
                   <IconButton
                     size="large"
                     aria-label="account of current user"
@@ -186,7 +213,7 @@ import {
                     onClick={handleMenu}
                     color="black"
                   >
-                    <Avatar sx={{height:30,width:30}} alt={doctor?.name}  />
+                    <Avatar sx={{ height: 30, width: 30 }} alt={doctor?.name} />
                     {/* <Avatar sx={{height:30,width:30}} alt={user?.name} src={`${baseURL}${user?.profile}`} /> */}
                   </IconButton>
                   <Menu
@@ -199,21 +226,43 @@ import {
                     keepMounted
                     transformOrigin={{
                       vertical: "top",
-                      horizontal: "right"
+                      horizontal: "right",
                     }}
                     open={Boolean(anchorEl)}
                     onClose={handleClose}
                   >
-                    <MenuItem onClick={handleClose}><Link style={{color:'black',fontSize:18,textDecoration: "none"}} to={'/doctor/profile'}>Profile</Link></MenuItem>
+                    <MenuItem onClick={handleClose}>
+                      <Link
+                        style={{
+                          color: "black",
+                          fontSize: 18,
+                          textDecoration: "none",
+                        }}
+                        to={"/doctor/profile"}
+                      >
+                        Profile
+                      </Link>
+                    </MenuItem>
 
                     <MenuItem onClick={handleLogout}>Logout</MenuItem>
                   </Menu>
                 </Box>
-            ):(<Box 
-              sx={{display: { sm: "flex", xs: "none" },}}
-            >
-              <Typography onClick={handleMenu} sx={{color:'white',backgroundColor:'#1959FD',px:2,py:.5,borderRadius:4,":hover":{color:'#1959FD',backgroundColor:'white'}}}>Login</Typography>
-              <Menu
+              ) : (
+                <Box sx={{ display: { sm: "flex", xs: "none" } }}>
+                  <Typography
+                    onClick={handleMenu}
+                    sx={{
+                      color: "white",
+                      backgroundColor: "#1959FD",
+                      px: 2,
+                      py: 0.5,
+                      borderRadius: 4,
+                      ":hover": { color: "#1959FD", backgroundColor: "white" },
+                    }}
+                  >
+                    Login
+                  </Typography>
+                  <Menu
                     id="menu-appba"
                     anchorEl={anchorEl}
                     anchorOrigin={{
@@ -228,17 +277,39 @@ import {
                     open={Boolean(anchorEl)}
                     onClose={handleClose}
                   >
-                    <MenuItem onClick={handleClose}><Link style={{color:'black',fontSize:18,textDecoration: 'none'}} to={'/login'}>User Login</Link></MenuItem>
-                    <MenuItem onClick={handleClose}><Link style={{color:'black',fontSize:18,textDecoration: 'none'}} to={'/doctor/login'}>Doctor Login</Link></MenuItem>
+                    <MenuItem onClick={handleClose}>
+                      <Link
+                        style={{
+                          color: "black",
+                          fontSize: 18,
+                          textDecoration: "none",
+                        }}
+                        to={"/login"}
+                      >
+                        User Login
+                      </Link>
+                    </MenuItem>
+                    <MenuItem onClick={handleClose}>
+                      <Link
+                        style={{
+                          color: "black",
+                          fontSize: 18,
+                          textDecoration: "none",
+                        }}
+                        to={"/doctor/login"}
+                      >
+                        Doctor Login
+                      </Link>
+                    </MenuItem>
                   </Menu>
+                </Box>
+              )}
             </Box>
-            )}
-              </Box>
-            </Toolbar>
-          </AppBar>
-        </Box>
-      </>
-    );
-  };
-  
-  export default DoctorNavbar;
+          </Toolbar>
+        </AppBar>
+      </Box>
+    </>
+  );
+};
+
+export default DoctorNavbar;

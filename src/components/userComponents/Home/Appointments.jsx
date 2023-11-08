@@ -6,10 +6,8 @@ import toast from "react-hot-toast";
 import { useSocket } from "../../../context/SocketProvider.jsx";
 import { useNavigate } from "react-router-dom";
 import Loader from "../../Loader.jsx";
-import { setAppointment } from "../../../redux/AppointmentSlice.js";
-
-
-
+import { appointmentData } from "../../../redux/AppointmentSlice.js";
+import { setSlot } from "../../../redux/ConsultSlice.js";
 import {
   Box,
   Button,
@@ -22,7 +20,6 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import { setSlot } from "../../../redux/ConsultSlice.js";
 
 
 const Appointment = () => {
@@ -44,7 +41,6 @@ const Appointment = () => {
 
       if (response.data.success) {
         toast.success(response.data.message);
-        // setAppointment((prevAppointments) =>prevAppointments.filter((appt) => appt._id !== apptId));
         setRefresh(!refresh);
       } else {
         toast.error(response.data.message);
@@ -75,18 +71,16 @@ const Appointment = () => {
     getAppointments();
   }, [refresh, user._id]);
 
-
-
-
-
-
-
+const sendData=(value)=>{
+  console.log(value,' from apppointment for review');
+  dispatch(appointmentData(value))
+}
 
 //to send backend
   const callHandler = useCallback((roomId) => {
     const room = roomId
-    socket.emit("room:join", {  email,room }) //18:26
-}, [socket,email])
+    socket.emit("room:join", {  email,room })
+}, [socket,email]) 
 
 
 const handleJoinRoom=useCallback((data)=>{
@@ -182,7 +176,8 @@ if (isLoading) {
                                   <Button
                                   variant="contained"
                                   color="success"
-                                  onClick={() => callHandler(value?._id + value?.userId?.name)}
+                                  onClick={() => {callHandler(value?._id + value?.userId?.name);
+                                    sendData(value)}}
                                   disabled={value?.isCancelled}
                                 >
                                   Call

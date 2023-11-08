@@ -1,6 +1,5 @@
-import {React,Suspense} from "react";
+import {React} from "react";
 import {  Routes, Route } from "react-router-dom";
-import Loader from "../components/Loader.jsx";
 import Login from '../components/Login/Login.jsx'
 import Dashboard from "../components/Admin/Dashboard.jsx";
 import UserList from "../components/Admin/UserList.jsx";
@@ -13,13 +12,11 @@ import AdminNavbar from "../components/Admin/AdminNavbar.jsx";
                                /* ADMIN ROUTES */
 function Admin() {
 
-
-
 return (
     <>    
-    {/* <Suspense fallback={<Loader />}>  */}
     <AdminNavbar />
     <Routes>
+
                 <Route path="/login" element={<Login value={'admin'}/>}/>
           
                 {/* PRIVATE ROUTES */}

@@ -1,0 +1,44 @@
+.title {
+    font-size: 24px;
+    margin-top: 20px;
+  }
+  
+  .sub-title {
+    font-size: 16px;
+    margin-bottom: 20px;
+  }
+  
+  .section-title {
+    font-size: 20px;
+    margin-top: 20px;
+  }
+  
+  .review-card {
+    width: 300px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    margin-top: 20px;
+    
+  }
+  
+  .review-input {
+    height: 80px;
+  }
+  
+  .submit-button {
+    margin-top: 20px;
+    background-color: #4CAF50; 
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .submit-button:hover {
+    background-color: #45a049; 
+  }

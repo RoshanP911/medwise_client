@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
+import { useSelector } from 'react-redux';
 import { useSocket } from "../context/SocketProvider";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
@@ -10,7 +11,6 @@ import {
   BsMicFill,
   BsMicMuteFill,
 } from "react-icons/bs";
-import { useSelector } from "react-redux";
 import axios from "../services/axiosInterceptor.js";
 
 VideoCall.propTypes = {
@@ -52,7 +52,7 @@ function VideoCall({ value }) {
       if (value === "doctor") {
         navigate("/doctor/appointments");
       } else if (value === "user") {
-        navigate("/review", { state: { appointId: appoint._id } });
+        navigate("/review");
       }
     } else {
       const stream = await navigator.mediaDevices.getUserMedia({

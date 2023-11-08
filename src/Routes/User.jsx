@@ -1,7 +1,5 @@
 import {React} from "react";
 import { Routes, Route } from "react-router-dom";
-
-
 import LandingPage from "../pages/User/LandingPage";
 import Otp from "../components/Otp/Otp.jsx";
 import Login from "../components/Login/Login.jsx";
@@ -11,7 +9,6 @@ import Profile from "../components/Profile/Profile.jsx";
 import EditProfile from "../components/Profile/EditProfile.jsx";
 import Navbar from "../components/Navbar/Navbar";
 import PrivateRoute from "../components/userComponents/Home/PrivateRoute";
-// import Loader from "../components/Loader";
 import FindDoctors from "../components/userComponents/Home/FindDoctors";
 import BookAppointment from '../components/userComponents/Home/BookAppointment'
 import ConfirmAppointment from "../components/userComponents/ConfirmAppointment";
@@ -20,9 +17,9 @@ import Cancel from "../components/userComponents/Home/Cancel";
 import SignUp from "../components/Signup/Signup";
 import Appointments from "../components/userComponents/Home/Appointments";
 import VideoCall from "../components/VideoCall";
-import FeedBack from "../components/userComponents/Home/Feedback";
 import Prescription from "../components/userComponents/Home/Prescription";
 import Reviews from "../components/userComponents/Home/Reviews";
+import Wallet from "../components/userComponents/Home/Wallet.jsx";
 
                                        /* USER ROUTES */
 function User() {
@@ -30,7 +27,6 @@ function User() {
 return (
     <>
     <Navbar/>
-    {/* <Suspense fallback={<Loader />}>  */}
     <Routes>
     <Route path="/" element={<LandingPage/>}/>
     <Route path="/register" element={<SignUp value={'user'}/>}/>
@@ -53,21 +49,15 @@ return (
        <Route path="/cancel" element={<Cancel/>}/>
        <Route path="/appointments" element={<Appointments/>}/>
        <Route path="/call/:room" element={<VideoCall value={'user'}/>}/>
-       <Route path='/feedBack' element={<FeedBack />} />
        <Route path='/prescription' element={<Prescription />} />
        <Route path='/review' element={<Reviews />} />
-
-
-       
+       <Route path='/wallet' element={<Wallet />} />
 
 
 
 
     </Route>
-
-    
     </Routes>
-    {/* </Suspense> */}
     </>
 )
 }

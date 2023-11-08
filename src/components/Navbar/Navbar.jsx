@@ -22,7 +22,6 @@ const Navbar = () => {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.user); //TAKING USER STATE FROM REDUX
   console.log(user, "this is user redux from navbar");
-  // console.log(user.is_verified,'(user.is_verified ');
   const [open, setOpen] = useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
 
@@ -246,6 +245,19 @@ const Navbar = () => {
                         to={"/profile"}
                       >
                         Profile
+                      </Link>
+                    </MenuItem>
+
+                    <MenuItem onClick={handleClose}>
+                      <Link
+                        style={{
+                          color: "black",
+                          fontSize: 18,
+                          textDecoration: "none",
+                        }}
+                        to={"/wallet"}
+                      >
+                        Wallet
                       </Link>
                     </MenuItem>
 

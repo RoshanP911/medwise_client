@@ -3,7 +3,6 @@ import { Routes, Route } from "react-router-dom";
 import SignUp from "../components/Signup/Signup.jsx";
 import Otp from "../components/Otp/Otp.jsx";
 import Login from "../components/Login/Login.jsx";
-import Banner from "../components/userComponents/Home/Banner.jsx";
 import DoctorDetails from "../components/Doctor/DoctorDetails.jsx";
 import DoctorForgotPassword from "../components/Forgot Password/DoctorForgotPassword.jsx";
 import DoctorResetPassword from "../components/Reset Password/DoctorResetPassword.jsx";
@@ -15,6 +14,7 @@ import DocAppointment from "../components/Doctor/DoctorAppointments.jsx";
 import VideoCall from "../components/VideoCall.jsx";
 import CreatePrescription from "../components/Doctor/CreatePrescription.jsx";
 import Success from "../components/userComponents/Home/Success.jsx";
+import Reviews from "../components/Doctor/Review.jsx";
 
 
 
@@ -41,6 +41,8 @@ return (
         <Route path="/call/:room" element={<VideoCall value={'doctor'}/>}/>
         <Route path="/success" element={<Success value={'doctor'}/>}/>
         <Route path="/create-prescription" element={<CreatePrescription/>}/>
+        <Route path="/review" element={<Reviews/>}/>
+
 
 
 
@@ -53,7 +55,4 @@ return (
 )
 }
 
-
-//value={'doctor'}
-//passing value as props
 export default Doctor;

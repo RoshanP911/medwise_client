@@ -9,7 +9,7 @@ import {
   Typography,
 } from "@mui/material";
 import { Link } from "react-router-dom";
-import { Input } from "@mui/material"; // Import Button
+import { Input } from "@mui/material"; 
 import styled from "styled-components";
 import { findDoctors } from "../../../services/APIs.js";
 import Loader from "../../Loader";
