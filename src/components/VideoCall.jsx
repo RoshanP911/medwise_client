@@ -11,7 +11,6 @@ import {
   BsMicFill,
   BsMicMuteFill,
 } from "react-icons/bs";
-import axios from "../services/axiosInterceptor.js";
 
 VideoCall.propTypes = {
   value: PropTypes.string,
@@ -21,7 +20,7 @@ function VideoCall({ value }) {
   const navigate = useNavigate();
   const socket = useSocket();
   const remoteRef = useRef();
-  const appoint = useSelector((state) => state.slot);
+  const appoint=useSelector((state)=>state.appointment)
 
   const [remoteSocketId, setRemoteSocketId] = useState(null);
   const [myStream, setMyStream] = useState(null);
@@ -32,6 +31,7 @@ function VideoCall({ value }) {
 
   const handleUserJoined = useCallback(({ email, id }) => {
     console.log(`${email} joined`);
+    console.log(id,'id joinedddddd');
     setRemoteSocketId(id);
   }, []);
 
@@ -42,12 +42,8 @@ function VideoCall({ value }) {
       socket.emit("call:end", { to: remoteSocketId });
       setCallActive(false);
       setRemoteStream("");
-      if (appoint._id) {
-        await axios
-          .patch(`doctor/endAppointment/${appoint._id}`)
-          .then((res) => {
-          });
-      }
+
+
       socket.emit("socket:disconnect", { socketId: remoteSocketId });
       if (value === "doctor") {
         navigate("/doctor/appointments");
@@ -55,6 +51,7 @@ function VideoCall({ value }) {
         navigate("/review");
       }
     } else {
+      //call active false
       const stream = await navigator.mediaDevices.getUserMedia({
         audio: true,
         video: true,

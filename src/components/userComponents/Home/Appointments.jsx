@@ -7,7 +7,9 @@ import { useSocket } from "../../../context/SocketProvider.jsx";
 import { useNavigate } from "react-router-dom";
 import Loader from "../../Loader.jsx";
 import { appointmentData } from "../../../redux/AppointmentSlice.js";
-import { setSlot } from "../../../redux/ConsultSlice.js";
+// import { setSlot } from "../../../redux/ConsultSlice.js";
+import axios from "../../../services/axiosInterceptor.js";
+
 import {
   Box,
   Button,
@@ -26,6 +28,7 @@ const Appointment = () => {
   const [refresh, setRefresh] = useState(false);
   const [appointment, setAppointment] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+
 
   const { user } = useSelector((state) => state.user);
   const socket = useSocket()
@@ -54,15 +57,12 @@ const Appointment = () => {
     const getAppointments = async () => {
       try {
         const userId = user._id;
-        const response = await Appointments(userId);
-
+        const response = await Appointments(userId);//Fetching appointments of a user
         // console.log(response.data.appointments, "response of appointments ");
-
         if (response.data.success) {
           setAppointment(response.data.appointments);
-          dispatch( setSlot(response.data.appointments))
-          
-
+          // dispatch( setSlot(response.data.appointments)) 
+          //Sending all appts of user to redux [to delete]
         }
       } catch (error) {
         console.error("An error occurred:", error);
@@ -71,9 +71,11 @@ const Appointment = () => {
     getAppointments();
   }, [refresh, user._id]);
 
-const sendData=(value)=>{
-  console.log(value,' from apppointment for review');
-  dispatch(appointmentData(value))
+const sendData=async(value)=>{
+  // console.log(value,' from apppointment for reviewwwwwwwwww');
+  dispatch(appointmentData(value)) //Sending appt details to appointmentSlice redux
+       await axios
+          .patch(`doctor/endAppointment/${value?._id}`)
 }
 
 //to send backend
@@ -84,9 +86,11 @@ const sendData=(value)=>{
 
 
 const handleJoinRoom=useCallback((data)=>{
-  const { email,room}=data
+  const { room}=data
    navigate(`/call/${room}`)
 },[navigate])
+
+
 
 
 useEffect(()=>{
@@ -109,6 +113,9 @@ useEffect(() => {
 if (isLoading) {
   return <Loader />;
 }
+
+
+
 
   return (
     <>
@@ -135,14 +142,23 @@ if (isLoading) {
                           <TableCell>Status</TableCell>
                           <TableCell>Action</TableCell>
                           <TableCell>Action</TableCell>
-
                         </TableRow>
                       </TableHead>
+
+
                       <TableBody>
                         {appointment.map((value) => (
                           <TableRow key={value._id}>
-                            <TableCell>{value?.doctorId?.name}</TableCell>
+                            <TableCell>Dr {value?.doctorId?.name}</TableCell>
+
                             <TableCell>{value?.slot}</TableCell>
+
+
+
+
+
+                            
+                            
                             <TableCell>
                               {new Date(value?.createdAt).toLocaleString(
                                 "en-US",
@@ -157,7 +173,11 @@ if (isLoading) {
                               )}
                             </TableCell>
                             <TableCell>
-                              {value?.isCancelled ? "Cancelled" : "Confirmed"}
+                              {/* {value?.isCancelled ? "Cancelled" : "Confirmed"} */}
+                              {/* {value?.isAttended ? "Completed": "Confirmed"} */}
+                        {value?.isCancelled ? "Cancelled" : (value.isAttended ? "Completed" : "Confirmed")}
+                        
+
                             </TableCell>
                             <TableCell>
                               {
@@ -165,7 +185,8 @@ if (isLoading) {
                                   variant="contained"
                                   color="error"
                                   onClick={() => cancelHandler(value?._id)}
-                                  disabled={value?.isCancelled}
+                                  // disabled={value?.isCancelled}
+                                  disabled={value?.isCancelled || value?.isAttended}
                                 >
                                   Cancel
                                 </Button>
@@ -176,9 +197,9 @@ if (isLoading) {
                                   <Button
                                   variant="contained"
                                   color="success"
-                                  onClick={() => {callHandler(value?._id + value?.userId?.name);
-                                    sendData(value)}}
-                                  disabled={value?.isCancelled}
+                                  onClick={() => {callHandler(value?._id + value?.userId?.name);//Sending 
+                                    sendData(value)}} //Sending userId for review
+                                  disabled={value?.isCancelled || value?.isAttended  }
                                 >
                                   Call
                                 </Button>

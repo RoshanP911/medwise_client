@@ -23,11 +23,9 @@ import Loader from "../Loader.jsx";
 const DocAppointment = () => {
   const [refresh, setRefresh] = useState(false);
   const [appointment, setAppointment] = useState([]);
-  const [userMail, setUsermail] = useState([]);
   const { doctor } = useSelector((state) => state.doctor);
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(true);
-
 
   const email = doctor.email;
 
@@ -91,18 +89,19 @@ const DocAppointment = () => {
     };
   }, [socket, handleJoinRoom]);
 
-
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false);
     }, 1000);
-  
+
     return () => clearTimeout(timer);
   }, []);
-  
+
   if (isLoading) {
     return <Loader />;
   }
+
+
 
   return (
     <>
@@ -130,7 +129,6 @@ const DocAppointment = () => {
                           <TableCell>Action</TableCell>
                           <TableCell>Action</TableCell>
                           <TableCell>Prescription</TableCell>
-
                         </TableRow>
                       </TableHead>
                       <TableBody>
@@ -152,7 +150,12 @@ const DocAppointment = () => {
                               )}
                             </TableCell>
                             <TableCell>
-                              {value?.isCancelled ? "Cancelled" : "Confirmed"}
+                              {/* {value?.isCancelled ? "Cancelled" : "Confirmed"} */}
+                              {value?.isCancelled
+                                ? "Cancelled"
+                                : value.isAttended
+                                ? "Completed"
+                                : "Confirmed"}
                             </TableCell>
                             <TableCell>
                               {
@@ -160,7 +163,10 @@ const DocAppointment = () => {
                                   variant="contained"
                                   color="error"
                                   onClick={() => cancelHandler(value?._id)}
-                                  disabled={value?.isCancelled}
+                                  // disabled={value?.isCancelled}
+                                  disabled={
+                                    value?.isCancelled || value?.isAttended
+                                  }
                                 >
                                   Cancel
                                 </Button>
@@ -176,27 +182,27 @@ const DocAppointment = () => {
                                     callHandler(
                                       value?._id + value?.userId?.name
                                     );
-                                    
                                   }}
-                                  disabled={value?.isCancelled}
+                                  disabled={value?.isCancelled || value?.isAttended  }
                                 >
                                   Call
                                 </Button>
                               }
                             </TableCell>
                             <TableCell>
-                            <Button
-                                  variant="contained"
-                                  color="success"
-                                  onClick={() => {
-                                    navigate("/doctor/create-prescription",{state:{value}});
-                                  }}
-                                  disabled={value?.isCancelled}
-
-                                  
-                                >
-                                  Create
-                                </Button>
+                              <Button
+                                variant="contained"
+                                color="success"
+                                onClick={() => {
+                                  navigate("/doctor/create-prescription", {
+                                    state: { value },
+                                  });
+                                }}
+                                disabled={value?.isCancelled || !value?.isAttended
+                                  }
+                              >
+                                Create
+                              </Button>
                             </TableCell>
                           </TableRow>
                         ))}
