@@ -5,7 +5,6 @@ import { Provider } from "react-redux";
 import { store } from "./redux/Store";
 import { SocketProvider } from "./context/SocketProvider";
 import ErrorBoundary from "./services/ErrorBoundary";
-import ErrorComponent from "./components/ErrorTest";
 // import './index.css'
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
