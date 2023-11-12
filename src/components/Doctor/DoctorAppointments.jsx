@@ -37,7 +37,6 @@ const DocAppointment = () => {
 
       if (response.data.success) {
         toast.success(response.data.message);
-        // setAppointment((prevAppointments) =>prevAppointments.filter((appt) => appt._id !== apptId));
         setRefresh(!refresh);
       } else {
         toast.error(response.data.message);
@@ -101,7 +100,43 @@ const DocAppointment = () => {
     return <Loader />;
   }
 
+  //15 mins before enable call button
+  const isTimeUp = (timeslot) => {
+    const parts = timeslot.split(" ");
 
+    let timePart = parts[4];
+
+    if (timePart.includes(".")) {
+      const [hours, minutes] = timePart.split(".");
+      timePart = `${hours}:${minutes.padStart(2, "0")}`;
+    }
+
+    parts[4] = timePart;
+
+    const formattedTimeslot = parts.join(" ");
+    const originalDate = new Date();
+
+    const hours = originalDate.getHours() % 12 || 12;
+    const ampm = originalDate.getHours() < 12 ? "AM" : "PM";
+
+    const formattedDateString = `${originalDate.toDateString()} ${hours}:${originalDate
+      .getMinutes()
+      .toString()
+      .padStart(2, "0")} ${ampm}`;
+
+    const timeslotDate = new Date(formattedTimeslot);
+    const currentDate = new Date(formattedDateString);
+    // Checking if the difference is less than 15 minutes
+    const timeDifference = timeslotDate.getTime() - currentDate.getTime();
+    const fifteenMinutesInMillis = 15 * 60 * 1000;
+    if (timeDifference < fifteenMinutesInMillis && timeDifference > 0) {
+      console.log("Less than 15 minutes remaining.");
+      return true;
+    } else {
+      console.log("More than 15 minutes remaining.");
+      return false;
+    }
+  };
 
   return (
     <>
@@ -150,7 +185,6 @@ const DocAppointment = () => {
                               )}
                             </TableCell>
                             <TableCell>
-                              {/* {value?.isCancelled ? "Cancelled" : "Confirmed"} */}
                               {value?.isCancelled
                                 ? "Cancelled"
                                 : value.isAttended
@@ -163,7 +197,6 @@ const DocAppointment = () => {
                                   variant="contained"
                                   color="error"
                                   onClick={() => cancelHandler(value?._id)}
-                                  // disabled={value?.isCancelled}
                                   disabled={
                                     value?.isCancelled || value?.isAttended
                                   }
@@ -183,7 +216,11 @@ const DocAppointment = () => {
                                       value?._id + value?.userId?.name
                                     );
                                   }}
-                                  disabled={value?.isCancelled || value?.isAttended  }
+                                  disabled={
+                                    value?.isCancelled ||
+                                    value?.isAttended ||
+                                    !isTimeUp(value?.slot)
+                                  }
                                 >
                                   Call
                                 </Button>
@@ -198,8 +235,9 @@ const DocAppointment = () => {
                                     state: { value },
                                   });
                                 }}
-                                disabled={value?.isCancelled || !value?.isAttended
-                                  }
+                                disabled={
+                                  value?.isCancelled || !value?.isAttended
+                                }
                               >
                                 Create
                               </Button>

@@ -7,7 +7,6 @@ import { useSocket } from "../../../context/SocketProvider.jsx";
 import { useNavigate } from "react-router-dom";
 import Loader from "../../Loader.jsx";
 import { appointmentData } from "../../../redux/AppointmentSlice.js";
-// import { setSlot } from "../../../redux/ConsultSlice.js";
 import axios from "../../../services/axiosInterceptor.js";
 
 import {
@@ -23,20 +22,17 @@ import {
   Typography,
 } from "@mui/material";
 
-
 const Appointment = () => {
   const [refresh, setRefresh] = useState(false);
   const [appointment, setAppointment] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-
   const { user } = useSelector((state) => state.user);
-  const socket = useSocket()
-  const navigate = useNavigate()
-  const dispatch = useDispatch()
+  const socket = useSocket();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-
-  const email  = user.email
+  const email = user.email;
 
   const cancelHandler = async (apptId) => {
     try {
@@ -57,12 +53,10 @@ const Appointment = () => {
     const getAppointments = async () => {
       try {
         const userId = user._id;
-        const response = await Appointments(userId);//Fetching appointments of a user
-        // console.log(response.data.appointments, "response of appointments ");
+        const response = await Appointments(userId); //Fetching appointments of a user
         if (response.data.success) {
           setAppointment(response.data.appointments);
-          // dispatch( setSlot(response.data.appointments)) 
-          //Sending all appts of user to redux [to delete]
+
         }
       } catch (error) {
         console.error("An error occurred:", error);
@@ -71,51 +65,85 @@ const Appointment = () => {
     getAppointments();
   }, [refresh, user._id]);
 
-const sendData=async(value)=>{
-  // console.log(value,' from apppointment for reviewwwwwwwwww');
-  dispatch(appointmentData(value)) //Sending appt details to appointmentSlice redux
-       await axios
-          .patch(`doctor/endAppointment/${value?._id}`)
-}
+  const sendData = async (value) => {
+    // console.log(value,' from apppointment for reviewwwwwwwwww');
+    dispatch(appointmentData(value)); //Sending appt details to appointmentSlice redux
+    await axios.patch(`doctor/endAppointment/${value?._id}`);
+  };
 
-//to send backend
-  const callHandler = useCallback((roomId) => {
-    const room = roomId
-    socket.emit("room:join", {  email,room })
-}, [socket,email]) 
+  //to send backend
+  const callHandler = useCallback(
+    (roomId) => {
+      const room = roomId;
+      socket.emit("room:join", { email, room });
+    },
+    [socket, email]
+  );
 
+  const handleJoinRoom = useCallback(
+    (data) => {
+      const { room } = data;
+      navigate(`/call/${room}`);
+    },
+    [navigate]
+  );
 
-const handleJoinRoom=useCallback((data)=>{
-  const { room}=data
-   navigate(`/call/${room}`)
-},[navigate])
+  useEffect(() => {
+    socket.on("room:join", handleJoinRoom);
+    return () => {
+      socket.off("room:join", handleJoinRoom);
+    };
+  }, [socket, handleJoinRoom]);
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
 
+    return () => clearTimeout(timer);
+  }, []);
 
-
-useEffect(()=>{
-  socket.on('room:join',handleJoinRoom)
-  return ()=>{
-    socket.off('room:join',handleJoinRoom)
+  if (isLoading) {
+    return <Loader />;
   }
-},[socket,handleJoinRoom])
 
+  //15 mins before enable call button
+  const isTimeUp = (timeslot) => {
+    const parts = timeslot.split(" ");
 
+    let timePart = parts[4];
 
-useEffect(() => {
-  const timer = setTimeout(() => {
-    setIsLoading(false);
-  }, 1000);
+    if (timePart.includes(".")) {
+      const [hours, minutes] = timePart.split(".");
+      timePart = `${hours}:${minutes.padStart(2, "0")}`;
+    }
 
-  return () => clearTimeout(timer);
-}, []);
+    parts[4] = timePart;
 
-if (isLoading) {
-  return <Loader />;
-}
+    const formattedTimeslot = parts.join(" ");
+    const originalDate = new Date();
 
+    const hours = originalDate.getHours() % 12 || 12;
+    const ampm = originalDate.getHours() < 12 ? "AM" : "PM";
 
+    const formattedDateString = `${originalDate.toDateString()} ${hours}:${originalDate
+      .getMinutes()
+      .toString()
+      .padStart(2, "0")} ${ampm}`;
 
+    const timeslotDate = new Date(formattedTimeslot);
+    const currentDate = new Date(formattedDateString);
+    // Checking if the difference is less than 15 minutes
+    const timeDifference = timeslotDate.getTime() - currentDate.getTime();
+    const fifteenMinutesInMillis = 15 * 60 * 1000;
+    if (timeDifference < fifteenMinutesInMillis && timeDifference > 0) {
+      console.log("Less than 15 minutes remaining.");
+      return true;
+    } else {
+      console.log("More than 15 minutes remaining.");
+      return false;
+    }
+  };
 
   return (
     <>
@@ -145,7 +173,6 @@ if (isLoading) {
                         </TableRow>
                       </TableHead>
 
-
                       <TableBody>
                         {appointment.map((value) => (
                           <TableRow key={value._id}>
@@ -153,12 +180,6 @@ if (isLoading) {
 
                             <TableCell>{value?.slot}</TableCell>
 
-
-
-
-
-                            
-                            
                             <TableCell>
                               {new Date(value?.createdAt).toLocaleString(
                                 "en-US",
@@ -173,11 +194,11 @@ if (isLoading) {
                               )}
                             </TableCell>
                             <TableCell>
-                              {/* {value?.isCancelled ? "Cancelled" : "Confirmed"} */}
-                              {/* {value?.isAttended ? "Completed": "Confirmed"} */}
-                        {value?.isCancelled ? "Cancelled" : (value.isAttended ? "Completed" : "Confirmed")}
-                        
-
+                              {value?.isCancelled
+                                ? "Cancelled"
+                                : value.isAttended
+                                ? "Completed"
+                                : "Confirmed"}
                             </TableCell>
                             <TableCell>
                               {
@@ -186,7 +207,9 @@ if (isLoading) {
                                   color="error"
                                   onClick={() => cancelHandler(value?._id)}
                                   // disabled={value?.isCancelled}
-                                  disabled={value?.isCancelled || value?.isAttended}
+                                  disabled={
+                                    value?.isCancelled || value?.isAttended
+                                  }
                                 >
                                   Cancel
                                 </Button>
@@ -194,12 +217,20 @@ if (isLoading) {
                             </TableCell>
                             <TableCell>
                               {
-                                  <Button
+                                <Button
                                   variant="contained"
                                   color="success"
-                                  onClick={() => {callHandler(value?._id + value?.userId?.name);//Sending 
-                                    sendData(value)}} //Sending userId for review
-                                  disabled={value?.isCancelled || value?.isAttended  }
+                                  onClick={() => {
+                                    callHandler(
+                                      value?._id + value?.userId?.name
+                                    ); //Sending
+                                    sendData(value);
+                                  }} //Sending userId for review
+                                  disabled={
+                                    value?.isCancelled ||
+                                    value?.isAttended ||
+                                    !isTimeUp(value?.slot)
+                                  }
                                 >
                                   Call
                                 </Button>
