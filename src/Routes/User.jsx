@@ -19,7 +19,7 @@ import Appointments from "../components/userComponents/Home/Appointments";
 import VideoCall from "../components/VideoCall";
 import Prescription from "../components/userComponents/Home/Prescription";
 import Reviews from "../components/userComponents/Home/Reviews";
-// import Wallet from "../components/userComponents/Home/Wallet.jsx";
+import Wallet from "../components/userComponents/Home/Wallet.jsx";
 
 
                                        /* USER ROUTES */
@@ -52,7 +52,7 @@ return (
        <Route path="/call/:room" element={<VideoCall value={'user'}/>}/>
        <Route path='/prescription' element={<Prescription />} />
        <Route path='/review' element={<Reviews />} />
-       {/* <Route path='/wallet' element={<Wallet />} /> */}
+       <Route path='/wallet' element={<Wallet />} />
 
 
 
