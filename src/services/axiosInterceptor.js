@@ -1,27 +1,16 @@
-// Authentication interceptor
+// Axios interceptor
 import axios from "axios";
 import { BASE_URL } from '../config';
 
 const instance = axios.create({
   baseURL: BASE_URL, 
-  //  timeout: 5000,
 });
-
 
 instance.interceptors.request.use(
   (config) => {
-    const userToken = localStorage.getItem('usertoken'); 
-    const doctorToken = localStorage.getItem('doctortoken')
-    const adminToken = localStorage.getItem('admintoken')
-
-    if (userToken) {
-      config.headers['Authorization']=`Bearer ${userToken}`
-    }
-    else if(doctorToken){
-      config.headers['Authorization']=`Bearer ${doctorToken}`
-    }
-    else if(adminToken){
-      config.headers['Authorization']=`Bearer ${adminToken}`
+    const accessToken = localStorage.getItem('token'); 
+    if (accessToken) {
+      config.headers['Authorization']=`Bearer ${accessToken}`
     }
     return config; 
   },
@@ -30,8 +19,6 @@ instance.interceptors.request.use(
   }
 
 )
-
-
 
 // Response interceptor 
 instance.interceptors.response.use(
@@ -49,7 +36,6 @@ instance.interceptors.response.use(
     return Promise.reject(error);
   }
 );
-
 
 
  export default instance;

@@ -35,7 +35,8 @@ const DoctorNavbar = () => {
     setOpen(false);
   };
   const handleLogout = () => {
-    localStorage.removeItem("doctortoken");
+    // localStorage.removeItem("doctortoken");
+      localStorage.removeItem("token");
     dispatch(setDoctor(null));
     setAnchorEl(null);
     navigate("/doctor/login");

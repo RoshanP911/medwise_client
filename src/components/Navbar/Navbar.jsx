@@ -36,7 +36,8 @@ const Navbar = () => {
     setOpen(false);
   };
   const handleLogout = () => {
-    localStorage.removeItem("usertoken");
+    // localStorage.removeItem("usertoken");
+localStorage.removeItem("token");
     dispatch(setUser(null));
     setAnchorEl(null);
     navigate("/");
