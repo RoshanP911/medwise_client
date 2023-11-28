@@ -10,10 +10,6 @@ function CreatePrescription() {
   const [description, setdescription] = useState('')
     const location = useLocation();
   const patientData = location.state && location.state.value;
-  console.log(patientData, "patient dataddad");
-  console.log(patientData._id, "patientData._id");
-
-
 
   
   const [medDetails, setMedDetails] = useState(new Map())

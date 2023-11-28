@@ -18,7 +18,6 @@ import { editProfileSchema } from "../../validation/editProfileValidation.js";
 import { setUser } from "../../redux/UserSlice.js";
 import Avatar from "@mui/material/Avatar";
 
-import Axios from "axios";
 import { uploadImage } from "../../services/APIs.js";
 
 const EditProfile = () => {

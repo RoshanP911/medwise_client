@@ -40,11 +40,11 @@ function Reviews() {
   return (
     <>
       <div className="text-center">
-        <h1 className="title">Thank You</h1>
-        <p className="sub-title">
+        {/* <h1 className="title">Thank You</h1> */}
+        {/* <p className="sub-title">
           Hope you had a good session with the doctor, and we are here for your
           future assistance.
-        </p>
+        </p> */}
         <Container>
           <Row className="justify-content-center">
             <Col>

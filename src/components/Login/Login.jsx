@@ -55,7 +55,7 @@ const Login = ({ value }) => {
               localStorage.setItem("token", response.data.token);
 
               dispatch(setDoctor(response.data.doctor));
-              navigate("/doctor/home");
+              navigate("/doctor/dashboard");
             }
           } else if (value === "admin") {
             localStorage.setItem("token", response.data.token);

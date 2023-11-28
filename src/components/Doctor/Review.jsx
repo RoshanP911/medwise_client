@@ -10,6 +10,7 @@ import {
 import { useSelector } from "react-redux";
 import axios from "../../services/axiosInterceptor";
 import Loader from "../Loader";
+import { useNavigate } from "react-router-dom";
 
 function Reviews() {
   const doctorData = useSelector((state) => state.doctor);
@@ -17,8 +18,14 @@ function Reviews() {
   const [currentPage, setCurrentPage] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
   const itemsPerPage = 5;
+  const navigate = useNavigate();
 
   useEffect(() => {
+
+    if (!localStorage.getItem("token")) {
+      navigate("/login");
+    }  
+
     (async () => {
       try {
         const res = await axios.get(`/doctor/review/${doctorData.doctor._id}`);

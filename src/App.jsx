@@ -10,10 +10,13 @@ import { Toaster } from "react-hot-toast";
 import Admin from "./Routes/Admin.jsx";
 import User from "./Routes/User.jsx";
 import Doctor from "./Routes/Doctor.jsx";
+import ErrorBoundary from "./services/ErrorBoundary.js";
 
 function App() {
   return (
     <>
+        <ErrorBoundary>
+
       <BrowserRouter>
         <Toaster position="top-center" reverseOrder={false} />
         <Routes>
@@ -23,6 +26,8 @@ function App() {
           <Route path="/admin/*" element={<Admin />} />
         </Routes>
       </BrowserRouter>
+      </ErrorBoundary>
+
     </>
   );
 }

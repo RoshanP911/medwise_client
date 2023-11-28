@@ -145,21 +145,13 @@ const AdminNavbar = () => {
                       </Typography>
                     </Link>
 
-                    <Link
-                      to={"/admin/profile"}
-                      style={{ textDecoration: "none" }}
-                    >
-                      <Typography
-                        sx={{ color: "black" }}
-                        variant="h6"
-                        margin={2}
-                      >
-                        Profile
-                      </Typography>
-                    </Link>
                   </Box>
                 </Drawer>
               </IconButton>
+              <Link
+                  to={"/admin/dashboard"}
+                  style={{ textDecoration: "none" }}
+                >
               <Typography
                 sx={{
                   fontFamily: "Arial, sans-serif",
@@ -175,6 +167,7 @@ const AdminNavbar = () => {
               >
                 MEDWISE
               </Typography>
+              </Link>
             </Box>
             <Box
               sx={{
