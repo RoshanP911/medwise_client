@@ -35,7 +35,7 @@ const DoctorNavbar = () => {
     setOpen(false);
   };
   const handleLogout = () => {
-    localStorage.removeItem("doctortoken");
+      localStorage.removeItem("token");
     dispatch(setDoctor(null));
     setAnchorEl(null);
     navigate("/doctor/login");
@@ -131,7 +131,10 @@ const DoctorNavbar = () => {
                   </Box>
                 </Drawer>
               </IconButton>
-
+              <Link
+                  to={"/doctor/dashboard"}
+                  style={{ textDecoration: "none" }}
+                >
               <Typography
                 sx={{
                   fontFamily: "Arial, sans-serif",
@@ -147,6 +150,7 @@ const DoctorNavbar = () => {
               >
                 MEDWISE
               </Typography>
+              </Link>
             </Box>
             <Box
               sx={{

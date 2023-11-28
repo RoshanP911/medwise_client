@@ -6,13 +6,18 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import toast from "react-hot-toast";
-import { doctorBlockUnblock } from "../services/APIs";
+import { doctorBlockUnblock, userBlockUnblock } from "../services/APIs";
 import { approveDoctor } from "../services/APIs";
 import { documentDownload } from "../services/APIs";
 
-
 //from material ui
-export default function DialogBox({ name, col, id, refreshHandler }) {
+export default function DialogBox({
+  name,
+  col,
+  id,
+  refreshHandler,
+  actionType,
+}) {
   const [open, setOpen] = React.useState(false);
   const [refresh, setRefresh] = React.useState(false);
 
@@ -24,31 +29,39 @@ export default function DialogBox({ name, col, id, refreshHandler }) {
     setOpen(false);
   };
 
-
-  const data= { doctorId:id };
+  const data = { Id: id };
 
   //TO BLOCK DOCTOR
- const confirmBlockAction = async () => {
+  const confirmBlockAction = async () => {
     try {
-      const response=await doctorBlockUnblock(data)
+      if (actionType === "doctor") {
+        const response = await doctorBlockUnblock(data);
+        if (response.data.success) {
+          toast.success(response.data.message);
+          setRefresh(!refresh);
+        } else {
+          toast.error(response.data.message);
+        }
+      } else if (actionType === "user") {
+        const response = await userBlockUnblock(data);
 
-      if (response.data.success) {
-        toast.success(response.data.message);
-        setRefresh(!refresh);
-      } else {
-        toast.error(response.data.message);
+        if (response.data.success) {
+          toast.success(response.data.message);
+          setRefresh(!refresh);
+        } else {
+          toast.error(response.data.message);
+        }
       }
     } catch (error) {
       console.log(error);
     }
-    refreshHandler()
+    refreshHandler();
   };
 
-
-//TO APPROVE DOCTOR
+  //TO APPROVE DOCTOR
   const confirmApprove = async () => {
     try {
-      const response=await approveDoctor(data)
+      const response = await approveDoctor(data);
 
       setRefresh(!refresh);
 
@@ -67,7 +80,7 @@ export default function DialogBox({ name, col, id, refreshHandler }) {
   //Function to trigger PDF download from Cloudinary
   const handleDownload = async () => {
     try {
-      const response=await documentDownload(data)
+      const response = await documentDownload(data);
 
       const dataa = response.data.data;
       const response1 = await fetch(`${dataa}`);
@@ -102,43 +115,50 @@ export default function DialogBox({ name, col, id, refreshHandler }) {
           {"Are you sure you want to do this?"}
         </DialogTitle>
         <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-
-          </DialogContentText>
+          <DialogContentText id="alert-dialog-description"></DialogContentText>
         </DialogContent>
         <DialogActions>
-        {name === 'View' ? (<>
-            <Button onClick={() =>setOpen(false)} color="primary">
-            Cancel
-          </Button>
+          {name === "View" ? (
+            <>
+              <Button onClick={() => setOpen(false)} color="primary">
+                Cancel
+              </Button>
 
-          <Button onClick={() => {
-              confirmApprove();
-              setOpen(false);
-            }} color="primary">
-            Approve
-          </Button>
+              <Button
+                onClick={() => {
+                  confirmApprove();
+                  setOpen(false);
+                }}
+                color="primary"
+              >
+                Approve
+              </Button>
 
-          <Button onClick={() => {
-              handleDownload();
-              setOpen(false);
-            }} color="primary">
-            Download
-          </Button></>) : (<>
-            <Button
-            onClick={() => {
-              confirmBlockAction();
-              setOpen(false);
-            }}
-          >
-            ok
-          </Button>
-          <Button onClick={handleClose} autoFocus>
-            cancel
-          </Button>
-          </>)}
-        
-        
+              <Button
+                onClick={() => {
+                  handleDownload();
+                  setOpen(false);
+                }}
+                color="primary"
+              >
+                Download
+              </Button>
+            </>
+          ) : (
+            <>
+              <Button
+                onClick={() => {
+                  confirmBlockAction();
+                  setOpen(false);
+                }}
+              >
+                ok
+              </Button>
+              <Button onClick={handleClose} autoFocus>
+                cancel
+              </Button>
+            </>
+          )}
         </DialogActions>
       </Dialog>
     </div>

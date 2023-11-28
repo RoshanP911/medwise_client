@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { Box, Typography, Input, Button } from "@mui/material"; // Import Button
+import { Box, Typography, Input } from "@mui/material"; // Import Button
 import { useDispatch } from "react-redux";
 import DialogBox from "../DialogBox.jsx";
 import { doctorList } from "../../services/APIs.js";
@@ -39,16 +39,6 @@ const SearchBar = styled(Input)`
 
 const ResponsiveContainer = styled.div`
   overflow-x: auto;
-`;
-
-const PaginationContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  margin-top: 20px;
-`;
-
-const PaginationButton = styled(Button)`
-  margin: 0 5px;
 `;
 
 const DoctorList = () => {
@@ -156,6 +146,7 @@ const DoctorList = () => {
                         variant="contained"
                         col={user.is_blocked ? "success" : "error"}
                         id={user._id}
+                        actionType="doctor" 
                       ></DialogBox>
                     </TableCell>
                     <TableCell>
@@ -174,28 +165,6 @@ const DoctorList = () => {
           )}
         </ResponsiveContainer>
 
-
-
-
-
-        {/* <PaginationContainer>
-          {currentItems.length > 0 && (
-            <>
-              <PaginationButton
-                onClick={() => paginate(currentPage - 1)}
-                disabled={currentPage === 1}
-              >
-                Previous
-              </PaginationButton>
-              <PaginationButton
-                onClick={() => paginate(currentPage + 1)}
-                disabled={indexOfLastItem >= filteredDoctors.length}
-              >
-                Next
-              </PaginationButton>
-            </>
-          )}
-        </PaginationContainer> */}
       </DoctorListContainer>
     </>
   );

@@ -4,25 +4,149 @@ import {
   Card,
   CardActions,
   CardContent,
+  FormControlLabel,
+  Radio,
+  RadioGroup,
   Typography,
 } from "@mui/material";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { createCheckoutSession } from "../../services/APIs.js";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import axios from "../../services/axiosInterceptor.js";
+import toast from "react-hot-toast";
 
 
 const ConfirmAppointment = () => {
   const location = useLocation(); // to access the current location in our application.
-  const response = location.state ; //attempts to extract data named response from the state of the current location.
+  const navigate = useNavigate();
+
+  const response = location.state; //attempts to extract data named response from the state of the current location.
+  const [paymentMode, setPaymentMode] = useState("");
+  const [total, setTotal] = useState(0);
+
+  // const { wallet } = useSelector((state) => state.wallet);
+  console.log(response,'guysssssssssssss');
+const userId= response.user._id
+const docFees=response.doctor.videoCallFees
+const docId=response.doctor._id
+const slot=response.value
+// useEffect=(()=>{
+
+// const fetchWalletBalance=async()=>{
+//   try {
+//     await axios.post("/fetch-wallet-balance",)
+//   } catch (error) {
+//     console.log(error);
+//   }
+// }
+
+// },[])
+
+
+
+
+
+
+useEffect(() => {
+  // if (!localStorage.getItem("token")) {
+  //   navigate("/login");
+  // }
+
+  //WALLET REDUCTION CALCULATION
+  const fetchAppointments = async () => {
+    try {
+//NEW WALLET DATA FROM BACKEND
+    const response = await axios.post("/fetch-wallet-balance", {
+        userId,
+      });
+console.log(response,'rrrrr');
+
+      console.log(response.data.user.wallet,'jjjjjjjjjjjjjj')
+
+setTotal(response.data.user.wallet)
+
+
+      // const response = await axios.post("/get-appointments-cancelled", {
+      //   userId,
+      // });
+      // console.log(response,'responseeee');
+      // const updatedAppointments = [...response.data.appointments];
+      // setAppointments(updatedAppointments);
+
+      // Calculating total after updating appointments
+      // const afterDeduction = updatedAppointments.reduce(
+      //   (accumulator, appointment) => {
+      //     return accumulator + Number((appointment.amount_paid * 60) / 100);
+      //   },
+      //   0
+      // );
+
+      // setTotal(afterDeduction);
+      // console.log(total,'toalllll walletttt');
+      // console.log(walletData,'waletdattata');
+
+    //  dispatch(walletData(total))
+    //  const updateWallet = (total) => {
+    //   console.log(total,'recgggg');
+    //   // dispatch(walletData(total))
+    //   dispatch(setWallet(total));
+
+    // };
+    // updateWallet(total)
+
+    //  console.log(walletData,'waletdattata 2');
+
+
+     
+    } catch (error) {
+      console.error("Error fetching appointments:", error);
+    }
+  };
+
+  fetchAppointments();
+}, [total]);
+
+
+
+
+
+
+
+
+
+
+
+
 
 
   const handleSubmit = async () => {
     try {
-      const res = await createCheckoutSession(response)
+      if (paymentMode === "Stripe") {
+        const res = await createCheckoutSession(response);
+        if (res.data.url) {
+          window.location.href = res.data.url;
+        }
+      } else if (paymentMode === "Wallet") {
+        const response=await axios.post('/wallet-payment',{total,docFees,userId,docId,slot})
+
+        if(response.data.success===true){
+          navigate('/success')
+        }
+        else{
+          toast.error(response.data.message);
+        }
 
 
-      if (res.data.url) {
-        window.location.href = res.data.url;
       }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handlePaymentModeChange = async (event) => {
+    try {
+      setPaymentMode(event.target.value);
     } catch (error) {
       console.log(error);
     }
@@ -65,7 +189,7 @@ const ConfirmAppointment = () => {
             }}
           >
             <CardContent>
-              <Box textAlign={"center"}>
+              <Box textAlign={"center"} marginTop={5}>
                 <Typography
                   variant="h5"
                   sx={{ fontWeight: 500, mb: 2, color: "#FD810F" }}
@@ -75,7 +199,7 @@ const ConfirmAppointment = () => {
                 <Typography
                   variant="body2"
                   color="text.secondary"
-                  sx={{ fontSize: 18 }}
+                  sx={{ fontSize: 20, fontWeight: 500 }}
                 >
                   Dr {response.doctor.name}
                 </Typography>
@@ -83,32 +207,25 @@ const ConfirmAppointment = () => {
                 <Typography
                   variant="body2"
                   color="text.secondary"
-                  sx={{ fontSize: 18 }}
+                  sx={{ fontSize: 20, fontWeight: 500 }}
                 >
                   {response.doctor.qualification}
                 </Typography>
               </Box>
 
-              <Box textAlign={"center"} marginTop={5}>
+              <Box textAlign={"center"} marginTop={10}>
                 <Typography
                   variant="h6"
-                  sx={{ fontSize: 25, fontWeight: 500, color: "#FD810F" }}
+                  sx={{ fontSize: 21, fontWeight: 500, color: "#FD810F" }}
                 >
                   Appointment Time
                 </Typography>
                 <Typography
                   variant="subtitle1"
-                  sx={{ fontSize: 15, fontWeight: 500 }}
+                  sx={{ fontSize: 23, fontWeight: 500 }}
                 >
                   {response.value}
                 </Typography>
-              </Box>
-              <Box textAlign={"center"} marginTop={5}>
-                <Typography
-                  variant="h3"
-                  sx={{ fontWeight: 500, color: "#2c5a8f", mt: 5 }}
-                ></Typography>
-                <Typography></Typography>
               </Box>
             </CardContent>
           </Card>
@@ -136,7 +253,7 @@ const ConfirmAppointment = () => {
               <Typography
                 variant="body2"
                 color="text.secondary"
-                sx={{ fontSize: 18 }}
+                sx={{ fontSize: 20, fontWeight: 500 }}
               >
                 Mr {response.user.name}
               </Typography>
@@ -144,7 +261,7 @@ const ConfirmAppointment = () => {
               <Typography
                 variant="body2"
                 color="text.secondary"
-                sx={{ fontSize: 18 }}
+                sx={{ fontSize: 20, fontWeight: 500 }}
               >
                 {response.user.mobile}
               </Typography>
@@ -152,7 +269,7 @@ const ConfirmAppointment = () => {
               <Typography
                 variant="body2"
                 color="text.secondary"
-                sx={{ fontSize: 18 }}
+                sx={{ fontSize: 20, fontWeight: 500 }}
               >
                 {response.user.email}
               </Typography>
@@ -161,13 +278,51 @@ const ConfirmAppointment = () => {
                 variant="h6"
                 sx={{ fontWeight: 500, mb: 2, color: "#FD810F", mt: 5 }}
               >
-                Amount to pay: Rs {response.doctor.videoCallFees}
+                Amount to pay:
               </Typography>
+              <Typography variant="h6" sx={{ fontWeight: 500 }}>
+                ₹ {response.doctor.videoCallFees}
+              </Typography>
+
+              <Typography
+                variant="h6"
+                sx={{ fontWeight: 500, mb: 2, color: "#FD810F", mt: 5 }}
+              >
+                Mode of payment:
+              </Typography>
+
+              {/* RADIO BUTTONS */}
+              <RadioGroup
+                aria-label="payment-mode"
+                name="payment-mode"
+                value={paymentMode}
+                onChange={handlePaymentModeChange}
+                sx={{ pl: 24, mb: 2 }}
+              >
+                <FormControlLabel
+                  value="Wallet"
+                  control={<Radio />}
+                  label="Wallet"
+                />
+                     <Typography
+                variant="h6"
+                // sx={{ fontWeight: 50}}
+              >
+                Wallet balance:{total}
+              </Typography>
+
+
+                <FormControlLabel
+                  value="Stripe"
+                  control={<Radio />}
+                  label="Stripe"
+                />
+              </RadioGroup>
 
               <CardActions sx={{ display: "flex", justifyContent: "center" }}>
                 <Button
                   variant="contained"
-                  sx={{ mt: 5 }}
+                  sx={{ mb: 3, mr: 4 }}
                   onClick={() => handleSubmit()}
                   color="success"
                 >
@@ -183,6 +338,3 @@ const ConfirmAppointment = () => {
 };
 
 export default ConfirmAppointment;
-
-
-

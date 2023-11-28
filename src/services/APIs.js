@@ -25,6 +25,10 @@ export const doctorBlockUnblock = async (data) => {
   return axios.post(`/admin/blockDoctor`, data);
 };
 
+export const userBlockUnblock = async(data)=>{
+  return axios.post(`/admin/blockUser`,data)
+}
+
 export const approveDoctor = async (data) => {
   return axios.post(`/admin/approveDoctor`, data);
 };
@@ -76,7 +80,9 @@ export const findDoctors = async () => {
   };
 
 
-
+  // export const getReview  = async () => {
+  //   return axios.post(`/edit-review`,{ });
+  // };
 
 //DOCTOR API CALLS
 export const getSpecialisations= async () => {

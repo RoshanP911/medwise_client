@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-hot-toast";
 import {
@@ -18,6 +18,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { setDoctor } from "../../redux/DoctorSlice.js";
 
 import "react-datepicker/dist/react-datepicker.css";
+import { useNavigate } from "react-router-dom";
 
 const AddSlot = () => {
   const { doctor } = useSelector((state) => state.doctor);
@@ -32,6 +33,8 @@ const AddSlot = () => {
   const [selectedTime, setSelectedTime] = useState('9.00 AM');
   const [addedDates, setAddedDates] = useState(doctor?.availableSlots);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
 
   const handleAdd = async () => {
     if (selectedDate) {
@@ -69,6 +72,7 @@ const AddSlot = () => {
     }
   };
 
+  const currentDate = new Date();
 
 
   return (
@@ -84,8 +88,10 @@ const AddSlot = () => {
               selected={selectedDate}
               onChange={(date) => setSelectedDate(date)}
               placeholderText="Select Date"
+minDate={currentDate}
               fullWidth
             />
+{console.log(selectedDate,'seelected dateee')}
           </Grid>
 
           <Grid item xs={12}>

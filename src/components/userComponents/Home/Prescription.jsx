@@ -24,6 +24,11 @@ function Prescription() {
   }, [id]);
 
   useEffect(() => {
+
+    if (!localStorage.getItem("token")) {
+      navigate("/login");
+    } 
+    
     DataCall();
   }, [DataCall]);
 

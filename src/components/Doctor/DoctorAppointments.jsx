@@ -56,6 +56,11 @@ const DocAppointment = () => {
   );
 
   useEffect(() => {
+    if (!localStorage.getItem("token")) {
+      navigate("/login");
+    } 
+
+
     const getAppointments = async () => {
       try {
         const doctorId = doctor._id;

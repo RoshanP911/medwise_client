@@ -20,6 +20,7 @@ import VideoCall from "../components/VideoCall";
 import Prescription from "../components/userComponents/Home/Prescription";
 import Reviews from "../components/userComponents/Home/Reviews";
 import Wallet from "../components/userComponents/Home/Wallet.jsx";
+import EditReview from "../components/userComponents/Home/EditReview.jsx";
 
 
                                        /* USER ROUTES */
@@ -53,6 +54,9 @@ return (
        <Route path='/prescription' element={<Prescription />} />
        <Route path='/review' element={<Reviews />} />
        <Route path='/wallet' element={<Wallet />} />
+       <Route path='/edit-review' element={<EditReview />} />
+
+       
 
 
 

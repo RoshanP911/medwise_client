@@ -26,16 +26,30 @@ const Appointment = () => {
   const [refresh, setRefresh] = useState(false);
   const [appointment, setAppointment] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [total, setTotal] = useState(0);
+  const [appointments, setAppointments] = useState([]);
+
 
   const { user } = useSelector((state) => state.user);
   const socket = useSocket();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
+const userId=user._id
   const email = user.email;
 
+
+
+  
+   
+
+
+
+
+
+
+
   const cancelHandler = async (apptId) => {
-    try {
+    try {      
       const response = await cancelAppointment(apptId);
 
       if (response.data.success) {
@@ -50,6 +64,10 @@ const Appointment = () => {
   };
 
   useEffect(() => {
+    if (!localStorage.getItem("token")) {
+      navigate("/login");
+    } 
+
     const getAppointments = async () => {
       try {
         const userId = user._id;
@@ -66,7 +84,7 @@ const Appointment = () => {
   }, [refresh, user._id]);
 
   const sendData = async (value) => {
-    // console.log(value,' from apppointment for reviewwwwwwwwww');
+
     dispatch(appointmentData(value)); //Sending appt details to appointmentSlice redux
     await axios.patch(`doctor/endAppointment/${value?._id}`);
   };
@@ -145,6 +163,23 @@ const Appointment = () => {
     }
   };
 
+
+
+
+  const reviewHandler=async(doctorId,userId,userName)=>{
+    try {
+      // console.log(doctorId,'doclrtoiddd');
+      // console.log(userId,'userddd')
+      // console.log(userName,'usenameeee')
+
+
+      navigate('/edit-review',{ state: { doctorId, userId } })
+
+    } catch (error) {
+      console.error("An error occurred:", error);
+    }
+  }
+
   return (
     <>
       <Box sx={{ display: "flex", justifyContent: "center" }}>
@@ -168,6 +203,7 @@ const Appointment = () => {
                           <TableCell>Appointment Time</TableCell>
                           <TableCell>Booked on</TableCell>
                           <TableCell>Status</TableCell>
+                          <TableCell>Action</TableCell>
                           <TableCell>Action</TableCell>
                           <TableCell>Action</TableCell>
                         </TableRow>
@@ -236,6 +272,26 @@ const Appointment = () => {
                                 </Button>
                               }
                             </TableCell>
+
+                            <TableCell>
+                              {
+                                <Button
+                                  variant="contained"
+                                  color="primary"
+                                  onClick={() => {
+                                    reviewHandler(
+                                      value?.doctorId?._id,value?.userId?._id,value?.userId?.name
+                                    );
+                                  }} 
+                                  disabled={!value?.isAttended}
+
+                                >
+                                  Rate and Review
+                                </Button>
+                              }
+                            </TableCell>
+
+
                           </TableRow>
                         ))}
                       </TableBody>

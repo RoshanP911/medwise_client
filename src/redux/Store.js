@@ -8,6 +8,7 @@ import { adminSlice } from "./AdminSlice";
 import { userSlice } from "./UserSlice";
 import { consultSlice } from "./ConsultSlice";
 import {  appointmentSlice } from "./AppointmentSlice";
+import { walletSlice } from "./WalletSlice"
 
 const rootReducer = combineReducers({
   alerts: alertsSlice.reducer,
@@ -15,7 +16,8 @@ const rootReducer = combineReducers({
   admin: adminSlice.reducer,
   user: userSlice.reducer,
   slot: consultSlice.reducer,
-  appointment: appointmentSlice.reducer
+  appointment: appointmentSlice.reducer,
+  wallet:walletSlice.reducer
 });
 
 const persistConfig = {

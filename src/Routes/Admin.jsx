@@ -27,12 +27,10 @@ return (
                     <Route path="/departments" element={<DepartmentList />}/>
                     <Route path="/add-department" element={<AddDepartment />}/>
 
-
                 </Route>
 
 
     </Routes>
-    {/* </Suspense> */}
     </>
 )
 }

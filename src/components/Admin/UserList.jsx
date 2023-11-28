@@ -4,6 +4,7 @@ import { Button } from "@mui/material";
 import { toast } from "react-hot-toast";
 import { userList } from "../../services/APIs.js";
 import Loader from "../Loader.jsx";
+import DialogBox from "../DialogBox.jsx";
 
 const UserListContainer = styled.div`
   font-family: Arial, sans-serif;
@@ -66,11 +67,9 @@ const UserList = () => {
   }
 
 
-
-//   const userBlock=(userId)=>{
-// console.log(userId,'ddddddddddddddd');
-//   }
-
+  const refreshHandler = () => {
+    setRefresh(!refresh);
+  };
 
   return (
     <>
@@ -94,14 +93,17 @@ const UserList = () => {
                 <TableCell>{user.name}</TableCell>
                 <TableCell>{user.email}</TableCell>
                 <TableCell>{user.mobile}</TableCell>
-                {/* <TableCell>{user._id}</TableCell> */}
-
                 <TableCell>
-                  {/* <BlockButton >Block</BlockButton>  */}
-
-                  {/* <Button variant="contained" color="error" onClick={userBlock(user._id)}>
-                    Block
-                  </Button> */}
+                  <DialogBox 
+                  refreshHandler={refreshHandler}
+                  name={user.is_blocked ? "Unblock" : "Block"}
+                  variant="contained"
+                  col={user.is_blocked ? "success" : "error"}
+                  id={user._id}
+                  actionType="user" 
+                  >
+                  
+                  </DialogBox>
                 </TableCell>
               </TableRow>
             ))}

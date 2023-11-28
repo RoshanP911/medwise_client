@@ -36,12 +36,13 @@ const Navbar = () => {
     setOpen(false);
   };
   const handleLogout = () => {
-    localStorage.removeItem("usertoken");
+localStorage.removeItem("token");
     dispatch(setUser(null));
     setAnchorEl(null);
     navigate("/");
   };
 
+  
   return (
     <>
       <Box sx={{ flexGrow: 1 }}>
@@ -176,6 +177,16 @@ const Navbar = () => {
                   </Typography>
                 </Link>
 
+                {/* <Link to={"/review"} style={{ textDecoration: "none" }}>
+                  <Typography
+                    sx={{ color: "#1959FD", cursor: "pointer" }}
+                    variant="h6"
+                    component="div"
+                  >
+                    Reviews
+                  </Typography>
+                </Link> */}
+
                 <Link to={"/appointments"} style={{ textDecoration: "none" }}>
                   <Typography
                     sx={{ color: "#1959FD", cursor: "pointer" }}
@@ -196,7 +207,7 @@ const Navbar = () => {
                   marginRight: 3,
                 }}
               >
-                <Link to={"/user_notification"}>
+                {/* <Link to={"/user_notification"}>
                   <Typography
                     sx={{ color: "black", mt: 1 }}
                     variant="h6"
@@ -204,7 +215,7 @@ const Navbar = () => {
                   >
                     <NotificationsIcon />
                   </Typography>
-                </Link>
+                </Link> */}
               </Box>
 
               {user && user ? (

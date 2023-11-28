@@ -34,7 +34,7 @@ return (
 
 
     <Route path="" element={<PrivateRoute/>}> 
-        <Route path="/home" element={<DoctorHome />}/> 
+        <Route path="/dashboard" element={<DoctorHome />}/> 
         <Route path="/details" element={<DoctorDetails  />}/>
         <Route path="/add-slot" element={<AddSlot/>}/>
         <Route path="/appointments" element={<DocAppointment/>}/>

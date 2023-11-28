@@ -1,27 +1,18 @@
-// Authentication interceptor
+// Axios interceptor
 import axios from "axios";
 import { BASE_URL } from '../config';
+import toast from "react-hot-toast";
+
 
 const instance = axios.create({
   baseURL: BASE_URL, 
-  //  timeout: 5000,
 });
-
 
 instance.interceptors.request.use(
   (config) => {
-    const userToken = localStorage.getItem('usertoken'); 
-    const doctorToken = localStorage.getItem('doctortoken')
-    const adminToken = localStorage.getItem('admintoken')
-
-    if (userToken) {
-      config.headers['Authorization']=`Bearer ${userToken}`
-    }
-    else if(doctorToken){
-      config.headers['Authorization']=`Bearer ${doctorToken}`
-    }
-    else if(adminToken){
-      config.headers['Authorization']=`Bearer ${adminToken}`
+    const accessToken = localStorage.getItem('token'); 
+    if (accessToken) {
+      config.headers['Authorization']=`Bearer ${accessToken}`
     }
     return config; 
   },
@@ -31,8 +22,6 @@ instance.interceptors.request.use(
 
 )
 
-
-
 // Response interceptor 
 instance.interceptors.response.use(
   (response) => {
@@ -41,9 +30,18 @@ instance.interceptors.response.use(
   (error) => {
     console.error('An error occurred:', error);
 
-    if (error.response) {
-      console.error('Status:', error.response.status);
-      console.error('Data:', error.response.data);
+    // if (error.response) {
+    //   console.error('Status:', error.response.status);
+    //   console.error('Data:', error.response.data);
+    // }
+    if (error.response.status === 403) {
+      // toast.error(`${error.response.data.message}`,{position:toast.POSITION.TOP_CENTER})
+      toast.error(error.response.data.message);
+      localStorage.removeItem('token')
+      window.location.href = '/login';
+    }
+    else{
+      toast.error(error.response.data.message);
     }
 
     return Promise.reject(error);
@@ -52,4 +50,16 @@ instance.interceptors.response.use(
 
 
 
+
+
  export default instance;
+
+
+
+
+
+
+
+
+
+ 
