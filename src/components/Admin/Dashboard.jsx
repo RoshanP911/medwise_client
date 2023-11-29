@@ -63,7 +63,6 @@ const Dashboard = () => {
     const totalAppointmentsStatusCount = async () => {
       console.log('t-status-count');
      const response= await axios.get('/admin/appt-status-count')
-    //  .then((res) => { setAppointStatusCount(res.data)})
     console.log(response,'totalAppointmentsStatusCount');
     setConfirmedCount(response.data.totalConfirmedCount)
     setAttendedCount(response.data.totalAttendedCount)
@@ -89,8 +88,6 @@ const Dashboard = () => {
             <DashBoardCard title={"Total Revenue"} count={revenue} color={'#d9f7d5'}/>
           </Grid>
 
-
-
           <Grid display={'flex'} justifyContent={'center'}>
           <Paper variant="outlined" sx={{ display: 'flex', flexDirection: 'column', width:600, height: 600, boxShadow: 5, ml: 5, mt: 5,p:5,mb:5 }}>
               <BarChart appoints={appoint} />
@@ -99,14 +96,11 @@ const Dashboard = () => {
 
             <Grid display={'flex'} justifyContent={'center'}>
           <Paper variant="outlined" sx={{ display: 'flex', flexDirection: 'column', width:600, height: 600, boxShadow: 5, ml: 5, mt: 5,p:5,mb:5 }}>
-<PieChart confirmedCount={confirmedCount} attendedCount={attendedCount} cancelledCount={cancelledCount} />
+             <PieChart confirmedCount={confirmedCount} attendedCount={attendedCount} cancelledCount={cancelledCount} />
             </Paper>
 
           </Grid>
           </Grid>
-
-
-
 
         </Grid>
       </Box>
