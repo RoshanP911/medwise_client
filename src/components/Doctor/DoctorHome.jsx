@@ -8,15 +8,25 @@ import PieChart from "../PieChart";
 
 const DoctorHome = () => {
   
-  
-  // const userType = "doctor";
   const doctorData = useSelector((state) => state.doctor.doctor);
+  const [amount,setAmount]=useState(0)
   const [appointCount, setAppointCount] = useState(0);
   const [appoint, setAppoint] = useState([]);
   const [confirmedCount,setConfirmedCount]=useState([])
   const [attendedCount,setAttendedCount]=useState([])
   const [cancelledCount,setCancelledCount]=useState([])
 
+
+//Amount Recieved
+useEffect(() => {
+  const fetchAmount = async () => {
+    await axios.get(`/doctor/amount-received/${doctorData._id}`).then((res) => { setAmount(res.data)  }).catch();
+  }
+  fetchAmount()
+}, [])
+
+
+//TOTAL APPOINTMENT COUNT 
 useEffect(() => {
   const fetchCount = async () => {
     await axios.get(`/doctor/total-appointments/${doctorData?._id}`).then((res) => { setAppointCount(res.data) }).catch();
@@ -25,6 +35,7 @@ useEffect(() => {
 }, [])
 
 
+//BAR CHART
 useEffect(() => {
   const fetchAppoint = async () => {
     await axios.get(`/doctor/appointment-list/${doctorData._id}`).then((res) => { setAppoint(res.data)  }).catch();
@@ -33,6 +44,9 @@ useEffect(() => {
 }, [])
 
 
+
+
+//PIE CHART
 useEffect(() => {
   const fetchAppoint = async () => {
 
@@ -65,7 +79,7 @@ useEffect(() => {
                 <Grid>
                   <Paper variant="outlined" sx={{ display: 'flex', flexDirection: 'column', justifyContent: "center", width: 250, height: 200, boxShadow: 5, ml: 5, mt: 5 }}>
                     <Typography variant="h4" textAlign={'center'} >Amount Recieved</Typography>
-                    <Typography variant="h4" textAlign={'center'} mt={2}>{doctorData?.payments}</Typography>
+                    <Typography variant="h4" textAlign={'center'} mt={2}>₹ {amount}</Typography>
                   </Paper>
                 </Grid>
                 <Grid>

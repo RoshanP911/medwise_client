@@ -12,7 +12,6 @@ import {
 import { useLocation, useNavigate } from "react-router-dom";
 import { createCheckoutSession } from "../../services/APIs.js";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 import axios from "../../services/axiosInterceptor.js";
 import toast from "react-hot-toast";
 
@@ -25,25 +24,10 @@ const ConfirmAppointment = () => {
   const [paymentMode, setPaymentMode] = useState("");
   const [total, setTotal] = useState(0);
 
-  // const { wallet } = useSelector((state) => state.wallet);
-  console.log(response,'guysssssssssssss');
 const userId= response.user._id
 const docFees=response.doctor.videoCallFees
 const docId=response.doctor._id
 const slot=response.value
-// useEffect=(()=>{
-
-// const fetchWalletBalance=async()=>{
-//   try {
-//     await axios.post("/fetch-wallet-balance",)
-//   } catch (error) {
-//     console.log(error);
-//   }
-// }
-
-// },[])
-
-
 
 
 
@@ -60,44 +44,8 @@ useEffect(() => {
     const response = await axios.post("/fetch-wallet-balance", {
         userId,
       });
-console.log(response,'rrrrr');
-
-      console.log(response.data.user.wallet,'jjjjjjjjjjjjjj')
 
 setTotal(response.data.user.wallet)
-
-
-      // const response = await axios.post("/get-appointments-cancelled", {
-      //   userId,
-      // });
-      // console.log(response,'responseeee');
-      // const updatedAppointments = [...response.data.appointments];
-      // setAppointments(updatedAppointments);
-
-      // Calculating total after updating appointments
-      // const afterDeduction = updatedAppointments.reduce(
-      //   (accumulator, appointment) => {
-      //     return accumulator + Number((appointment.amount_paid * 60) / 100);
-      //   },
-      //   0
-      // );
-
-      // setTotal(afterDeduction);
-      // console.log(total,'toalllll walletttt');
-      // console.log(walletData,'waletdattata');
-
-    //  dispatch(walletData(total))
-    //  const updateWallet = (total) => {
-    //   console.log(total,'recgggg');
-    //   // dispatch(walletData(total))
-    //   dispatch(setWallet(total));
-
-    // };
-    // updateWallet(total)
-
-    //  console.log(walletData,'waletdattata 2');
-
-
      
     } catch (error) {
       console.error("Error fetching appointments:", error);
@@ -308,7 +256,7 @@ setTotal(response.data.user.wallet)
                 variant="h6"
                 // sx={{ fontWeight: 50}}
               >
-                Wallet balance:{total}
+                Wallet balance:₹ {total}
               </Typography>
 
 
