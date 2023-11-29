@@ -37,7 +37,6 @@ useEffect(() => {
   const fetchAppoint = async () => {
 
     const response=await axios.get(`/doctor/appt-status-count/${doctorData._id}`)
-    // .then((res) => { setAppoint(res.data)  }).catch();
 
 
     setConfirmedCount(response.data.totalConfirmedCount)
