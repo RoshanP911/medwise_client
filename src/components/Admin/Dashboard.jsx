@@ -15,6 +15,8 @@ const Dashboard = () => {
   const [docCount, setdocCount] = useState(null)
   const [revenue, setRevenue] = useState(null)
   const [appoint,setAppoint]=useState([])
+
+
   const [confirmedCount,setConfirmedCount]=useState([])
   const [attendedCount,setAttendedCount]=useState([])
   const [cancelledCount,setCancelledCount]=useState([])
@@ -26,14 +28,15 @@ const Dashboard = () => {
       try {
         const res = await axios.get('/admin/user-count');
         setuserCount(res.data)
-
       } catch (error) {
-
+console.log(error);
       }
     }
-
     fetchUserCount()
   }, [])
+
+
+
   useEffect(() => {
     const fetchDoctorCount = async () => {
       await axios.get('/admin/doctor-count').then((res) => { setdocCount(res.data) })
@@ -61,9 +64,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     const totalAppointmentsStatusCount = async () => {
-      console.log('t-status-count');
      const response= await axios.get('/admin/appt-status-count')
-    console.log(response,'totalAppointmentsStatusCount');
     setConfirmedCount(response.data.totalConfirmedCount)
     setAttendedCount(response.data.totalAttendedCount)
     setCancelledCount(response.data.totalCancelledCount)
@@ -82,10 +83,12 @@ const Dashboard = () => {
               Your Dashboard
             </Typography>
           </Grid>
+
+
           <Grid display={'flex'} flexWrap={'wrap'} justifyContent={'space-around'}>
             <DashBoardCard title={title} count={userCount} color={'#fac5e7'} />
             <DashBoardCard title={'Total Doctors'} count={docCount} color={'#caedeb'}/>
-            <DashBoardCard title={"Total Revenue"} count={revenue} color={'#d9f7d5'}/>
+            <DashBoardCard title={"Total Revenue"} count={`₹ ${revenue}`} color={'#d9f7d5'} />
           </Grid>
 
           <Grid display={'flex'} justifyContent={'center'}>

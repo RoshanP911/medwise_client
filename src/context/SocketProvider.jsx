@@ -12,7 +12,8 @@ export const useSocket = () => {
 
 //this provider gives whole app accesss to socket
 export const SocketProvider = (props) => {
-  const socket = useMemo(() => io("localhost:9000"), []);
+  //const socket = useMemo(() => io("localhost:9000"), []);
+  const socket = useMemo(() => io("https://medwise.site"), []);
   //socket server
   return (
     <SocketContext.Provider value={socket}>
