@@ -15,8 +15,7 @@ import VideoCall from "../components/VideoCall.jsx";
 import CreatePrescription from "../components/Doctor/CreatePrescription.jsx";
 import Success from "../components/userComponents/Home/Success.jsx";
 import Reviews from "../components/Doctor/Review.jsx";
-
-
+import ErrorPage from "../pages/404/ErrorPage.js";
 
                                        /* DOCTOR ROUTES */
 function Doctor() {
@@ -25,6 +24,7 @@ return (
     <>
     <DoctorNavbar />
     <Routes>
+    <Route path='*' element = {<ErrorPage/>}/>
     <Route path="/register" element={<SignUp value={'doctor'}/>}/> 
     <Route path="/otp" element={<Otp value={'doctor'}/>}/> 
     <Route path="/resend-otp" element={<Otp value={'doctor'}/>}/>
@@ -43,13 +43,7 @@ return (
         <Route path="/create-prescription" element={<CreatePrescription/>}/>
         <Route path="/review" element={<Reviews/>}/>
 
-
-
-
-
-
     </Route>
-
     </Routes>
     </>
 )

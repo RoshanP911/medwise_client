@@ -171,7 +171,7 @@ function VideoCall({ value }) {
         <div className="container">
           <div className="row text-start">
             <div className="col-md-6">
-              {myStream && <h1>My stream</h1>}
+              {myStream && <h1>Patient stream</h1>}
               {myStream && (
                 <ReactPlayer
                   style={{ backgroundColor: "black" }}
@@ -184,7 +184,7 @@ function VideoCall({ value }) {
               )}
             </div>
             <div className="col-md-6">
-              {remoteStream && <h1>Remote stream</h1>}
+              {remoteStream && <h1>Doctor stream</h1>}
               {remoteStream && (
                 <ReactPlayer
                   style={{ backgroundColor: "black" }}

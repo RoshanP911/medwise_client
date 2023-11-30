@@ -17,6 +17,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { singleDoctorDetails } from "../../../services/APIs.js";
 import axios from "../../../services/axiosInterceptor.js";
+import ErrorPage from "../../../pages/404/ErrorPage.js";
 
 const BookAppointment = () => {
   const { id } = useParams();
@@ -80,6 +81,8 @@ const BookAppointment = () => {
     }
   };
 
+
+  //
   const fetchDctorDetails = async (id) => {
     try {
       const response = await singleDoctorDetails(id);
@@ -87,13 +90,21 @@ const BookAppointment = () => {
       if (response.data.success) {
         setDoctor(response.data.data);
       }
+      else{
+        console.log(response.data.message);
+      }
     } catch (error) {
+      navigate("/*");
       console.log(error);
+    }
+
+    if(!doctor){
+      return <redirect to="/error" />;
     }
   };
   useEffect(() => {
     fetchDctorDetails(id);
-  }, []);
+  }, [id]);
 
   useEffect(() => {
     setAvailableSlots(doctor?.availableSlots || []);

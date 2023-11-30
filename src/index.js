@@ -5,11 +5,11 @@ import { Provider } from "react-redux";
 import { store } from "./redux/Store";
 import { SocketProvider } from "./context/SocketProvider";
 import ErrorBoundary from "./services/ErrorBoundary";
-// import './index.css'
+import './index.css'
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <React.StrictMode>
+  // <React.StrictMode>
     <Provider store={store}>
       <SocketProvider>
         <ErrorBoundary>
@@ -17,5 +17,5 @@ root.render(
         </ErrorBoundary>
       </SocketProvider>
     </Provider>
-  </React.StrictMode>
+  // </React.StrictMode>
 );
