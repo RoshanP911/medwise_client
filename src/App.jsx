@@ -15,19 +15,17 @@ import ErrorBoundary from "./services/ErrorBoundary.js";
 function App() {
   return (
     <>
-        <ErrorBoundary>
-
-      <BrowserRouter>
-        <Toaster position="top-center" reverseOrder={false} />
-        <Routes>
-          {/* FRONTEND ROUTES  */}
-          <Route path="/*" element={<User />} />
-          <Route path="/doctor/*" element={<Doctor />} />
-          <Route path="/admin/*" element={<Admin />} />
-        </Routes>
-      </BrowserRouter>
+      <ErrorBoundary>
+        <BrowserRouter>
+          <Toaster position="top-center" reverseOrder={false} />
+          <Routes>
+            {/* FRONTEND ROUTES  */}
+            <Route path="/*" element={<User />} />
+            <Route path="/doctor/*" element={<Doctor />} />
+            <Route path="/admin/*" element={<Admin />} />
+          </Routes>
+        </BrowserRouter>
       </ErrorBoundary>
-
     </>
   );
 }

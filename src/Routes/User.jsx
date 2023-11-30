@@ -21,7 +21,7 @@ import Prescription from "../components/userComponents/Home/Prescription";
 import Reviews from "../components/userComponents/Home/Reviews";
 import Wallet from "../components/userComponents/Home/Wallet.jsx";
 import EditReview from "../components/userComponents/Home/EditReview.jsx";
-
+import ErrorPage from "../pages/404/ErrorPage.js";
 
                                        /* USER ROUTES */
 function User() {
@@ -30,6 +30,7 @@ return (
     <>
     <Navbar/>
     <Routes>
+    <Route path='*' element = {<ErrorPage/>}/>
     <Route path="/" element={<LandingPage/>}/>
     <Route path="/register" element={<SignUp value={'user'}/>}/>
     <Route path="/otp" element={<Otp value={'user'}/>}/>
@@ -55,11 +56,6 @@ return (
        <Route path='/review' element={<Reviews />} />
        <Route path='/wallet' element={<Wallet />} />
        <Route path='/edit-review' element={<EditReview />} />
-
-       
-
-
-
 
 
     </Route>

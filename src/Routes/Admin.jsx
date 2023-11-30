@@ -8,6 +8,7 @@ import DepartmentList from "../components/Admin/DepartmentList.jsx";
 import AddDepartment from "../components/Admin/AddDepartment.jsx";
 import PrivateRoute from "../components/Admin/PrivateRoute.jsx";
 import AdminNavbar from "../components/Admin/AdminNavbar.jsx";
+import ErrorPage from "../pages/404/ErrorPage.js";
 
                                /* ADMIN ROUTES */
 function Admin() {
@@ -16,6 +17,8 @@ return (
     <>    
     <AdminNavbar />
     <Routes>
+    <Route path='*' element = {<ErrorPage/>}/>
+
 
                 <Route path="/login" element={<Login value={'admin'}/>}/>
           

@@ -13,7 +13,7 @@ import PieChart from "../PieChart";
 const Dashboard = () => {
   const [userCount, setuserCount] = useState(null)
   const [docCount, setdocCount] = useState(null)
-  const [revenue, setRevenue] = useState(null)
+  const [revenue, setRevenue] = useState(0)
   const [appoint,setAppoint]=useState([])
 
 
@@ -46,7 +46,7 @@ console.log(error);
 
   useEffect(() => {
     const totalRevenue = async () => {
-      await axios.get('/admin/total-revenue').then((res) => { setRevenue(res.data.totalAmountPaid) })
+      await axios.get('/admin/total-revenue').then((res) => { setRevenue(res.data) })
     }
     totalRevenue()
   }, [])
