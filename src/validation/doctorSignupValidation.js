@@ -11,16 +11,20 @@ export const DoctorSchema = Yup.object().shape({
   password: Yup.string()
     .min(4, "password must be between 4-10")
     .max(10, "password must be between 4-10")
-    .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#%&*_\-?])(?=.{4,10}$)/,
+    .matches(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#%&*_\-?])(?=.{4,10}$)/,
       "One Uppercase, One Lowercase, One Number and One Special Case Character"
     )
     .required("Please enter your password"),
-    cpassword: Yup.string()
-.oneOf([Yup.ref('password'), null], 'Passwords must match'),
-  mobile: Yup.string().required("Please enter your phone number")
-    .matches(
-    /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/,
-    "please enter a valid number"
+  cpassword: Yup.string().oneOf(
+    [Yup.ref("password"), null],
+    "Passwords must match"
   ),
-  about:Yup.string().required('Please write your self').min(20,"20 letters minimum required")
+  mobile: Yup.string()
+  .matches(/^[0-9]{10}$/, "Please enter a valid 10-digit mobile number")
+  .required("Please enter a Mobile Number"),
+
+  about: Yup.string()
+    .required("Please write your self")
+    .min(20, "20 letters minimum required"),
 });

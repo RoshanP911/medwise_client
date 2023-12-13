@@ -4,47 +4,44 @@ import React from "react";
 const Footer = () => {
   return (
     <>
-      <Box sx={{ backgroundColor: "#E9FBFF" }}>
+      <Box sx={{ backgroundColor: "#F0E9FF" }}>
         <Box sx={{ display: "flex", justifyContent: "space-around",flexWrap:'wrap' }}>
           <Box>
             <Typography
-              sx={{ color: "#FD810F", fontSize: 35, fontWeight: 500, mt: 7,mr:{xs:7.5,sm:0} }}
+              sx={{ color: "#2e8fff", fontSize: 35, fontWeight: 500, mt: 7,mr:{xs:7.5,sm:0} }}
             >
               Medwise
             </Typography>
             <Typography
               sx={{ color: "#0D369F", fontSize: 15, fontWeight: 500 }}
             >
-              Caring for you
+              Expert Care Anytime, Anywhere
             </Typography>
           </Box>
           <Box>
             <Typography
-              sx={{ color: "#0D369F", fontSize: 30, fontWeight: 600, mt:{xs:3,sm:7},ml:{xs:6,sm:0} }}
+              sx={{ color: "#2e8fff", fontSize: 30, fontWeight: 600, mt:{xs:3,sm:7},ml:{xs:6,sm:0} }}
             >
               Quick Links
             </Typography>
             <List component="nav" aria-label="simple list" sx={{ml:{xs:5,sm:0}}}>
               <ListItem >
-                <ListItemText primary="Doctors" />
+                <ListItemText primary="About" />
               </ListItem>
               <ListItem >
-                <ListItemText primary="Creators" />
+                <ListItemText primary="Blog" />
               </ListItem>
               <ListItem >
-                <ListItemText primary='About Us'/>
+                <ListItemText primary='Careers'/>
               </ListItem>
               <ListItem >
-                <ListItemText primary='Services'/>
-              </ListItem>
-              <ListItem >
-                <ListItemText primary='Booking'/>
+                <ListItemText primary='Press'/>
               </ListItem>
             </List>
           </Box>
           <Box>
           <Typography
-              sx={{ color: "#0D369F", fontSize: 30, fontWeight: 600, mt: 7 }}
+              sx={{ color: "#2e8fff", fontSize: 30, fontWeight: 600, mt: 7 }}
             >
               Our Services
             </Typography>

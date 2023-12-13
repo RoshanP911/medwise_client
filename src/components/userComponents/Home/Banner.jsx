@@ -1,8 +1,9 @@
 import { Box, Typography } from "@mui/material";
 import React from "react";
-import bannerImg from "../../../Assets/PngItem_4554771.png";
+import bannerImg from "../../../Assets/Female-Doctor-PNG-File.png";
 
-const Banner = ({ value }) => {
+
+const Banner = () => {
   return (
     <>
       <Box

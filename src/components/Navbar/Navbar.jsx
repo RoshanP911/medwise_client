@@ -12,7 +12,6 @@ import {
 import React, { useState } from "react";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
-import NotificationsIcon from "@mui/icons-material/Notifications";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "../../redux/UserSlice";
@@ -83,6 +82,7 @@ localStorage.removeItem("token");
                     gap={333}
                     sx={{ width: 200 }}
                   >
+                       <Link to={"/"} style={{ textDecoration: "none" }}>
                     <Typography
                       sx={{
                         color: "#FD810F",
@@ -92,6 +92,7 @@ localStorage.removeItem("token");
                     >
                       MEDWISE
                     </Typography>
+                    </Link>
 
                     <Link to={"/"} style={{ textDecoration: "none" }}>
                       <Typography
@@ -124,7 +125,7 @@ localStorage.removeItem("token");
                 </Drawer>
               </IconButton>
 
-              <Link to={"/home"} style={{ textDecoration: "none" }}>
+              <Link to={"/"} style={{ textDecoration: "none" }}>
                 <Typography
                   sx={{
                     fontFamily: "Arial, sans-serif",
@@ -177,16 +178,6 @@ localStorage.removeItem("token");
                   </Typography>
                 </Link>
 
-                {/* <Link to={"/review"} style={{ textDecoration: "none" }}>
-                  <Typography
-                    sx={{ color: "#1959FD", cursor: "pointer" }}
-                    variant="h6"
-                    component="div"
-                  >
-                    Reviews
-                  </Typography>
-                </Link> */}
-
                 <Link to={"/appointments"} style={{ textDecoration: "none" }}>
                   <Typography
                     sx={{ color: "#1959FD", cursor: "pointer" }}
@@ -207,15 +198,6 @@ localStorage.removeItem("token");
                   marginRight: 3,
                 }}
               >
-                {/* <Link to={"/user_notification"}>
-                  <Typography
-                    sx={{ color: "black", mt: 1 }}
-                    variant="h6"
-                    component="div"
-                  >
-                    <NotificationsIcon />
-                  </Typography>
-                </Link> */}
               </Box>
 
               {user && user ? (

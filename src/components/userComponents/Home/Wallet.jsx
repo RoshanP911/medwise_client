@@ -40,19 +40,19 @@ function Wallet(props) {
       const response = await axios.post("/fetch-wallet-balance", {
           userId,
         });
-console.log(response,'rrrrr');
+          console.log(response,'rrrrr');
 
         console.log(response.data.user.wallet,'jjjjjjjjjjjjjj')
 
 setTotal(response.data.user.wallet)
 
 
-        // const response = await axios.post("/get-appointments-cancelled", {
-        //   userId,
-        // });
-        // console.log(response,'responseeee');
-        // const updatedAppointments = [...response.data.appointments];
-        // setAppointments(updatedAppointments);
+        const responsee = await axios.post("/get-appointments-cancelled", {
+          userId,
+        });
+        console.log(responsee,'responseeee');
+        const updatedAppointments = [...responsee.data.appointments];
+        setAppointments(updatedAppointments);
 
         // Calculating total after updating appointments
         // const afterDeduction = updatedAppointments.reduce(
@@ -218,7 +218,7 @@ setTotal(response.data.user.wallet)
                     <TableRow>
                       <TableCell align="right">Image</TableCell>
                       <TableCell align="right">Name&nbsp;</TableCell>
-                      <TableCell align="right">Email&nbsp;</TableCell>
+                      <TableCell align="right">Appointment Date&nbsp;</TableCell>
                       <TableCell align="right">Amount&nbsp;</TableCell>
                       <TableCell align="right">Status&nbsp;</TableCell>
                     </TableRow>
@@ -256,7 +256,7 @@ setTotal(response.data.user.wallet)
                             Dr {row.doctorId.name}
                           </TableCell>
                           <TableCell align="right">
-                            {row.doctorId.email}
+                            {row.slot}
                           </TableCell>
                           <TableCell align="right">
                             {(row.amount_paid * 60) / 100}

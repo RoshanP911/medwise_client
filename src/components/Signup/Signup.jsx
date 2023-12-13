@@ -4,10 +4,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import { userSchema } from "../../validation/userSignupValidation";
 import { useDispatch } from "react-redux";
-import axios from '../../services/axiosInterceptor.js'
 import { hideLoading } from "../../redux/AlertSlice";
 import { toast } from "react-hot-toast";
-import { setUser } from "../../redux/UserSlice";
 import PropTypes from 'prop-types'
 import { Register } from "../../services/APIs";
 
@@ -33,30 +31,14 @@ const SignUp = ({value}) => {
     validationSchema: userSchema,
     onSubmit: async (values, helpers) => {
       try {    //in axios.post wer posting directly to backend server 
-
-        // const response = await axios.post(value==='doctor'?"/doctor/register":"/register", 
-        //   values
-        // );
         const response = await Register(value, 
         values
       );
 
-
-
-        // console.log(response,'response from signuppppp');
-
-
         dispatch(hideLoading());
         if (response.data.success) {
           toast.success(response.data.message);
-   
-          // console.log(response.data,'values from response.datares');
-
-          // dispatch(setUser(values));
-          // dispatch(setUser(response))
-          // console.log( response.data,'response.data from otp submnitn');
           const id=response.data.user._id
-          // dispatch(setUser(id)) 
 
             // Redirect based on user's role
             if (value === "doctor") {

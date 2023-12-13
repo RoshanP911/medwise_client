@@ -9,7 +9,6 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { toast } from "react-hot-toast";
 import PropTypes from 'prop-types'
 import { OTPSend } from "../../services/APIs";
-import { OTPResend } from "../../services/APIs";
 // import axios from "axios";
 
 
