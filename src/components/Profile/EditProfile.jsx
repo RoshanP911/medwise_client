@@ -83,11 +83,6 @@ const EditProfile = () => {
     setImageUrl(response.data.secure_url); //stores in imageUrl state
   };
 
-  const handleImageClick = () => {
-    // Triggers the click event on the file input when the image is clicked
-    // imageInputRef.current.click();
-  };
-
   return (
     <>
       <Container maxWidth="sm">
@@ -108,7 +103,7 @@ const EditProfile = () => {
 
             <label
               htmlFor="image"
-              onClick={handleImageClick}
+              // onClick={handleImageClick}
               style={{ cursor: "pointer" }}
             >
               {/* Display the selected image as a preview */}
@@ -117,12 +112,15 @@ const EditProfile = () => {
               )}
 
               {/* Display the current user image and if no cureent selected image */}
-              {!imageUrl && user.image && (
-                <img src={user.image} alt="Current" width="150" height="150" />
+              {!imageUrl &&  (
+                <img src={user.image || "https://i.pinimg.com/564x/ba/67/2e/ba672e06deb5cfda02fac769aa2519ec.jpg"} alt="Click to change" width="150" height="150" />
               )}
-            </label>
 
-            {/* <img src={user.image} alt=""  width="150" height="150" /> */}
+              
+
+
+              
+            </label>
 
             <TextField
               label="Name"
@@ -190,7 +188,10 @@ const EditProfile = () => {
             <TextField
               label="Address"
               name="address"
+              type="address"
               value={formik.values.address}
+              error={formik.errors.address}
+              helperText={formik.errors.address}
               onChange={formik.handleChange}
               fullWidth
               margin="normal"

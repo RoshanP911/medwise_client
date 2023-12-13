@@ -31,6 +31,5 @@ export const userSchema = Yup.object().shape({
 
   mobile: Yup.string()
     .matches(/^[0-9]{10}$/, "Please enter a valid 10-digit mobile number")
-    .max(5, "Same number repeating more than 5 times")
     .required("Please enter a Mobile Number"),
 });

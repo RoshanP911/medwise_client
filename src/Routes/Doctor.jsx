@@ -29,8 +29,8 @@ return (
     <Route path="/otp" element={<Otp value={'doctor'}/>}/> 
     <Route path="/resend-otp" element={<Otp value={'doctor'}/>}/>
     <Route path="/login" element={<Login value={'doctor'}/>}/>
-    <Route path="/forgot-password" element={<DoctorForgotPassword value={'doctor'}/>}/>
-    <Route path="/reset-password/:id/:token" element={<DoctorResetPassword value={'doctor'}/>}/>
+    <Route path="/forgot-password" element={<DoctorForgotPassword/>}/>
+    <Route path="/reset-password/:id/:token" element={<DoctorResetPassword/>}/>
 
 
     <Route path="" element={<PrivateRoute/>}> 

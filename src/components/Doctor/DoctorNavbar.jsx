@@ -80,6 +80,8 @@ const DoctorNavbar = () => {
                     gap={333}
                     sx={{ width: 200 }}
                   >
+                  
+                  <Link to={"/doctor/dashboard"} style={{ textDecoration: "none" }}>
                     <Typography
                       sx={{
                         color: "#FD810F",
@@ -89,6 +91,10 @@ const DoctorNavbar = () => {
                     >
                       MEDWISE
                     </Typography>
+                    </Link>
+
+
+
                     <Link to={"/"}>
                       <Typography
                         sx={{ color: "black" }}
